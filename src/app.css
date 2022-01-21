@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: Matter-Medium;
+  src: url("/assets/fonts/Matter-Medium.woff2");
+}
+
+@font-face {
+  font-family: Matter-Regular;
+  src: url("/assets/fonts/Matter-Regular.woff2");
+}
+
+html * {
+  font-family: "Matter-Medium", sans-serif;
+}
