@@ -17,7 +17,7 @@
     "dev": "concurrently \"npm run dev:svelte\" \"npm run tailwind\""
   },
   "keywords": [],
-  "author": "tjbck",
+  "author": "Timothy Jaeryang Baek (tjbck)",
   "license": "MIT",
   "config": {
     "forge": {

@@ -33,7 +33,7 @@ function launchAtStartup() {
 
 let tray;
 const createTray = () => {
-  tray = new Tray('public/favicon.png')
+  tray = new Tray(path.join(__dirname, '../public/favicon.png'))
 
   tray.on('right-click', () => {
     console.log('right-click')
@@ -104,8 +104,6 @@ const showWindow = () => {
   mainWindow.show()
   mainWindow.focus()
 }
-
-
 
 // Live Reload
 require('electron-reload')(__dirname, {
