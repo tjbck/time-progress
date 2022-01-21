@@ -1,5 +1,105 @@
-const { app, BrowserWindow } = require('electron');
+
+const { app, protocol, ipcMain, BrowserWindow, Tray, Menu } = require('electron')
 const path = require('path');
+const isDev = require('electron-is-dev');
+
+let mainWindow;
+
+function launchAtStartup() {
+  if (process.platform === "darwin") {
+    app.setLoginItemSettings({
+      openAtLogin: true,
+      openAsHidden: true
+    });
+  } else {
+    app.setLoginItemSettings({
+      openAtLogin: true,
+      openAsHidden: true,
+      args: [
+        "--processStart",
+        `"${exeName}"`,
+        "--process-start-args",
+        `"--hidden"`
+      ]
+    });
+  }
+}
+
+let tray;
+const createTray = () => {
+  tray = new Tray('public/favicon.png')
+
+  tray.on('right-click', () => {
+    console.log('right-click')
+  })
+
+  tray.on('double-click', toggleWindow)
+
+  tray.on('click', () => {
+    const contextMenu = Menu.buildFromTemplate([
+      {
+        label: 'Open Widget',
+        click: () => {
+          showWindow()
+        },
+      },
+      {
+        label: 'Quit',
+        click: () => {
+          app.isQuitting = true
+          app.quit()
+        },
+      },
+    ])
+    tray.setContextMenu(contextMenu)
+    console.log('click')
+  })
+
+  tray.on('mouse-move', () => {
+    tray.setToolTip(`Time Progress\n${new Date().toLocaleString()}`)
+  })
+
+  const contextMenu = Menu.buildFromTemplate([
+    {
+      label: 'Open Widget',
+      click: () => {
+        showWindow()
+      },
+    },
+    {
+      label: 'Quit',
+      click: () => {
+        app.isQuitting = true
+        app.quit()
+      },
+    },
+  ])
+
+  tray.setContextMenu(contextMenu)
+  tray.setToolTip(`Time Progress Widget`)
+
+  tray.on('click', function (event) {
+    toggleWindow()
+  })
+}
+
+
+const toggleWindow = () => {
+  if (mainWindow.isVisible()) {
+    mainWindow.hide()
+  } else {
+    showWindow()
+  }
+}
+
+const showWindow = () => {
+  // const position = getWindowPosition()
+  // win.setPosition(position.x, position.y, false)
+  mainWindow.show()
+  mainWindow.focus()
+}
+
+
 
 // Live Reload
 require('electron-reload')(__dirname, {
@@ -14,12 +114,24 @@ if (require('electron-squirrel-startup')) {
 }
 
 const createWindow = () => {
+
+  if (!isDev) {
+    launchAtStartup()
+  }
+
+  createTray()
+
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+  mainWindow = new BrowserWindow({
+    icon: 'public/favicon.png',
+    width: 220,
+    height: 220,
+    frame: false,
+    resizable: false,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      contextIsolation: false,
+      preload: __dirname + '/preload.js'
     }
   });
 
@@ -27,7 +139,8 @@ const createWindow = () => {
   mainWindow.loadFile(path.join(__dirname, '../public/index.html'));
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+
+  if (isDev) mainWindow.webContents.openDevTools();
 };
 
 // This method will be called when Electron has finished
@@ -54,3 +167,9 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
+
+
+ipcMain.on("toggle-window", function () {
+  console.log("electron:toggle-window")
+  toggleWindow()
+});
