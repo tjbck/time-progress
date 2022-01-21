@@ -3,6 +3,12 @@ const { app, protocol, ipcMain, BrowserWindow, Tray, Menu } = require('electron'
 const path = require('path');
 const isDev = require('electron-is-dev');
 
+const exeName = path.basename(process.execPath);
+// Scheme must be registered before the app is ready
+protocol.registerSchemesAsPrivileged([
+  { scheme: 'app', privileges: { secure: true, standard: true } }
+])
+
 let mainWindow;
 
 function launchAtStartup() {
