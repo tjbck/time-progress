@@ -475,17 +475,17 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 
 @font-face {
-  font-family: Matter-Medium;
+  font-family: MMedium;
 
-  src: url("/assets/fonts/Matter-Medium.woff2");
+  src: url("/assets/fonts/Medium.woff2");
 }
 
 @font-face {
-  font-family: Matter-Regular;
+  font-family: MRegular;
 
-  src: url("/assets/fonts/Matter-Regular.woff2");
+  src: url("/assets/fonts/Regular.woff2");
 }
 
 html * {
-  font-family: "Matter-Medium", sans-serif;
+  font-family: "MMedium", sans-serif;
 }

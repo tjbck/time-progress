@@ -3,15 +3,15 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: Matter-Medium;
-  src: url("/assets/fonts/Matter-Medium.woff2");
+  font-family: MMedium;
+  src: url("/assets/fonts/Medium.woff2");
 }
 
 @font-face {
-  font-family: Matter-Regular;
-  src: url("/assets/fonts/Matter-Regular.woff2");
+  font-family: MRegular;
+  src: url("/assets/fonts/Regular.woff2");
 }
 
 html * {
-  font-family: "Matter-Medium", sans-serif;
+  font-family: "MMedium", sans-serif;
 }

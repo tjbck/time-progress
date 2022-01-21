@@ -3,11 +3,12 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
+import css from 'rollup-plugin-css-only';
 
 const production = !process.env.ROLLUP_WATCH;
 
 export default {
-	input: 'src/svelte.js',
+	input: 'src/main.js',
 	output: {
 		sourcemap: true,
 		format: 'iife',
@@ -20,10 +21,13 @@ export default {
 			dev: !production,
 			// we'll extract any component CSS out into
 			// a separate file - better for performance
-			css: css => {
-				css.write('public/build/bundle.css');
-			}
+			// css: css => {
+			// 	css.write('public/build/bundle.css');
+			// }
 		}),
+
+		css({ output: 'bundle.css' }),
+
 
 		// If you have external dependencies installed from
 		// npm, you'll most likely need these plugins. In
@@ -61,7 +65,7 @@ function serve() {
 			if (!started) {
 				started = true;
 
-				require('child_process').spawn('npm', ['run', 'svelte-start', '--', '--dev'], {
+				require('child_process').spawn('npm', ['run', 'start:svelte', '--', '--dev'], {
 					stdio: ['ignore', 'inherit', 'inherit'],
 					shell: true
 				});
