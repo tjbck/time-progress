@@ -128,8 +128,8 @@ const createWindow = () => {
   // Create the browser window.
   mainWindow = new BrowserWindow({
     icon: 'public/favicon.png',
-    width: 220,
-    height: 220,
+    width: 250,
+    height: 250,
     frame: false,
     resizable: false,
     webPreferences: {

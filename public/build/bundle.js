@@ -1,2 +1,765 @@
-var app=function(){"use strict";function t(){}function e(t){return t()}function n(){return Object.create(null)}function o(t){t.forEach(e)}function r(t){return"function"==typeof t}function s(t,e){return t!=t?e==e:t!==e||t&&"object"==typeof t||"function"==typeof t}function i(t,e){t.appendChild(e)}function c(t,e,n){t.insertBefore(e,n||null)}function l(t){t.parentNode.removeChild(t)}function a(t){return document.createElement(t)}function u(t){return document.createTextNode(t)}function f(){return u(" ")}function d(t,e,n){null==n?t.removeAttribute(e):t.getAttribute(e)!==n&&t.setAttribute(e,n)}function g(t,e,n,o){null===n?t.style.removeProperty(e):t.style.setProperty(e,n,o?"important":"")}let p;function $(t){p=t}function m(t){(function(){if(!p)throw new Error("Function called outside component initialization");return p})().$$.on_mount.push(t)}const h=[],w=[],v=[],y=[],x=Promise.resolve();let b=!1;function _(t){v.push(t)}const D=new Set;let k=0;function M(){const t=p;do{for(;k<h.length;){const t=h[k];k++,$(t),L(t.$$)}for($(null),h.length=0,k=0;w.length;)w.pop()();for(let t=0;t<v.length;t+=1){const e=v[t];D.has(e)||(D.add(e),e())}v.length=0}while(h.length);for(;y.length;)y.pop()();b=!1,D.clear(),$(t)}function L(t){if(null!==t.fragment){t.update(),o(t.before_update);const e=t.dirty;t.dirty=[-1],t.fragment&&t.fragment.p(t.ctx,e),t.after_update.forEach(_)}}const T=new Set;function E(t,e){t&&t.i&&(T.delete(t),t.i(e))}function C(t,e,n,o){if(t&&t.o){if(T.has(t))return;T.add(t),undefined.c.push((()=>{T.delete(t),o&&(n&&t.d(1),o())})),t.o(e)}}function z(t){t&&t.c()}function H(t,n,s,i){const{fragment:c,on_mount:l,on_destroy:a,after_update:u}=t.$$;c&&c.m(n,s),i||_((()=>{const n=l.map(e).filter(r);a?a.push(...n):o(n),t.$$.on_mount=[]})),u.forEach(_)}function O(t,e){const n=t.$$;null!==n.fragment&&(o(n.on_destroy),n.fragment&&n.fragment.d(e),n.on_destroy=n.fragment=null,n.ctx=[])}function j(t,e){-1===t.$$.dirty[0]&&(h.push(t),b||(b=!0,x.then(M)),t.$$.dirty.fill(0)),t.$$.dirty[e/31|0]|=1<<e%31}function A(e,r,s,i,c,a,u,f=[-1]){const d=p;$(e);const g=e.$$={fragment:null,ctx:null,props:a,update:t,not_equal:c,bound:n(),on_mount:[],on_destroy:[],on_disconnect:[],before_update:[],after_update:[],context:new Map(r.context||(d?d.$$.context:[])),callbacks:n(),dirty:f,skip_bound:!1,root:r.target||d.$$.root};u&&u(g.root);let m=!1;if(g.ctx=s?s(e,r.props||{},((t,n,...o)=>{const r=o.length?o[0]:n;return g.ctx&&c(g.ctx[t],g.ctx[t]=r)&&(!g.skip_bound&&g.bound[t]&&g.bound[t](r),m&&j(e,t)),n})):[],g.update(),m=!0,o(g.before_update),g.fragment=!!i&&i(g.ctx),r.target){if(r.hydrate){const t=function(t){return Array.from(t.childNodes)}(r.target);g.fragment&&g.fragment.l(t),t.forEach(l)}else g.fragment&&g.fragment.c();r.intro&&E(e.$$.fragment),H(e,r.target,r.anchor,r.customElement),M()}$(d)}class F{$destroy(){O(this,1),this.$destroy=t}$on(t,e){const n=this.$$.callbacks[t]||(this.$$.callbacks[t]=[]);return n.push(e),()=>{const t=n.indexOf(e);-1!==t&&n.splice(t,1)}}$set(t){var e;this.$$set&&(e=t,0!==Object.keys(e).length)&&(this.$$.skip_bound=!0,this.$$set(t),this.$$.skip_bound=!1)}}function S(e){let n,o;return{c(){n=a("div"),o=a("div"),d(o,"class","bg-yellow-300 h-1"),g(o,"width",e[0]+"%"),d(n,"class","w-full bg-gray-600 h-1"),g(n,"min-width","80vw")},m(t,e){c(t,n,e),i(n,o)},p(t,[e]){1&e&&g(o,"width",t[0]+"%")},i:t,o:t,d(t){t&&l(n)}}}function N(t,e,n){let{progress:o=10}=e;return t.$$set=t=>{"progress"in t&&n(0,o=t.progress)},[o]}class P extends F{constructor(t){super(),A(this,t,N,S,s,{progress:0})}}function Y(t){let e,n,o,r,s,p,$,m,h,w,v,y,x,b,_,D,k,M,L,T,j,A,F,S,N,Y,B,q,I,R,G,J=t[0].toLocaleString()+"";return w=new P({props:{progress:(60*(t[0].getHours()+1)+t[0].getMinutes())/1440*100}}),_=new P({props:{progress:100*(0===t[0].getDay()?7:t[0].getDay()/7)}}),T=new P({props:{progress:t[0].getDate()/new Date(t[0].getFullYear(),t[0].getMonth()+1,0).getDate()*100}}),N=new P({props:{progress:t[1]()/(t[0]%4==0?366:365)*100}}),{c(){e=a("div"),n=a("main"),o=a("div"),r=a("div"),s=a("div"),s.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>',p=f(),$=a("div"),m=a("div"),m.innerHTML="<div>Today</div>",h=f(),z(w.$$.fragment),v=f(),y=a("div"),x=a("div"),x.textContent="This week",b=f(),z(_.$$.fragment),D=f(),k=a("div"),M=a("div"),M.textContent="This month",L=f(),z(T.$$.fragment),j=f(),A=a("div"),F=a("div"),F.textContent="This year",S=f(),z(N.$$.fragment),Y=f(),B=a("div"),q=u(J),d(r,"class","flex absolute"),g(r,"margin-left","70vw"),g(r,"-webkit-app-region","no-drag"),d(m,"class","my-1"),d($,"class","text-left"),d(x,"class","my-1"),d(y,"class","text-left"),d(M,"class","my-1"),d(k,"class","text-left"),d(F,"class","my-1"),d(A,"class","text-left"),d(B,"class","mt-4"),d(o,"class","m-auto"),d(n,"class","h-screen flex justify-center items-center text-white svelte-1cp0utu"),d(e,"class","min-h-screen min-w-screen bg-stone-900")},m(l,a){var u,f,d,g;c(l,e,a),i(e,n),i(n,o),i(o,r),i(r,s),i(o,p),i(o,$),i($,m),i($,h),H(w,$,null),i(o,v),i(o,y),i(y,x),i(y,b),H(_,y,null),i(o,D),i(o,k),i(k,M),i(k,L),H(T,k,null),i(o,j),i(o,A),i(A,F),i(A,S),H(N,A,null),i(o,Y),i(o,B),i(B,q),I=!0,R||(u=s,f="click",d=t[2],u.addEventListener(f,d,g),G=()=>u.removeEventListener(f,d,g),R=!0)},p(t,[e]){const n={};1&e&&(n.progress=(60*(t[0].getHours()+1)+t[0].getMinutes())/1440*100),w.$set(n);const o={};1&e&&(o.progress=100*(0===t[0].getDay()?7:t[0].getDay()/7)),_.$set(o);const r={};1&e&&(r.progress=t[0].getDate()/new Date(t[0].getFullYear(),t[0].getMonth()+1,0).getDate()*100),T.$set(r);const s={};1&e&&(s.progress=t[1]()/(t[0]%4==0?366:365)*100),N.$set(s),(!I||1&e)&&J!==(J=t[0].toLocaleString()+"")&&function(t,e){e=""+e,t.wholeText!==e&&(t.data=e)}(q,J)},i(t){I||(E(w.$$.fragment,t),E(_.$$.fragment,t),E(T.$$.fragment,t),E(N.$$.fragment,t),I=!0)},o(t){C(w.$$.fragment,t),C(_.$$.fragment,t),C(T.$$.fragment,t),C(N.$$.fragment,t),I=!1},d(t){t&&l(e),O(w),O(_),O(T),O(N),R=!1,G()}}}function B(t,e,n){let o=new Date;m((()=>{setInterval((()=>{n(0,o=new Date)}),1e3)}));return t.$$.update=()=>{1&t.$$.dirty&&(o.getHours(),o.getMinutes(),console.log("hello"))},[o,()=>{const t=new Date(o.getFullYear(),0,0),e=o-t+60*(t.getTimezoneOffset()-o.getTimezoneOffset())*1e3;return Math.floor(e/864e5)},()=>{console.log("toggle"),window.ipcRenderer.send("toggle-window")}]}return new class extends F{constructor(t){super(),A(this,t,B,Y,s,{})}}({target:document.body,props:{name:"world"}})}();
+
+(function(l, r) { if (!l || l.getElementById('livereloadscript')) return; r = l.createElement('script'); r.async = 1; r.src = '//' + (self.location.host || 'localhost').split(':')[0] + ':35730/livereload.js?snipver=1'; r.id = 'livereloadscript'; l.getElementsByTagName('head')[0].appendChild(r) })(self.document);
+var app = (function () {
+    'use strict';
+
+    function noop() { }
+    function run(fn) {
+        return fn();
+    }
+    function blank_object() {
+        return Object.create(null);
+    }
+    function run_all(fns) {
+        fns.forEach(run);
+    }
+    function is_function(thing) {
+        return typeof thing === 'function';
+    }
+    function safe_not_equal(a, b) {
+        return a != a ? b == b : a !== b || ((a && typeof a === 'object') || typeof a === 'function');
+    }
+    function is_empty(obj) {
+        return Object.keys(obj).length === 0;
+    }
+    function append(target, node) {
+        target.appendChild(node);
+    }
+    function insert(target, node, anchor) {
+        target.insertBefore(node, anchor || null);
+    }
+    function detach(node) {
+        node.parentNode.removeChild(node);
+    }
+    function element(name) {
+        return document.createElement(name);
+    }
+    function text(data) {
+        return document.createTextNode(data);
+    }
+    function space() {
+        return text(' ');
+    }
+    function listen(node, event, handler, options) {
+        node.addEventListener(event, handler, options);
+        return () => node.removeEventListener(event, handler, options);
+    }
+    function attr(node, attribute, value) {
+        if (value == null)
+            node.removeAttribute(attribute);
+        else if (node.getAttribute(attribute) !== value)
+            node.setAttribute(attribute, value);
+    }
+    function children(element) {
+        return Array.from(element.childNodes);
+    }
+    function set_data(text, data) {
+        data = '' + data;
+        if (text.wholeText !== data)
+            text.data = data;
+    }
+    function set_style(node, key, value, important) {
+        if (value === null) {
+            node.style.removeProperty(key);
+        }
+        else {
+            node.style.setProperty(key, value, important ? 'important' : '');
+        }
+    }
+
+    let current_component;
+    function set_current_component(component) {
+        current_component = component;
+    }
+    function get_current_component() {
+        if (!current_component)
+            throw new Error('Function called outside component initialization');
+        return current_component;
+    }
+    function onMount(fn) {
+        get_current_component().$$.on_mount.push(fn);
+    }
+
+    const dirty_components = [];
+    const binding_callbacks = [];
+    const render_callbacks = [];
+    const flush_callbacks = [];
+    const resolved_promise = Promise.resolve();
+    let update_scheduled = false;
+    function schedule_update() {
+        if (!update_scheduled) {
+            update_scheduled = true;
+            resolved_promise.then(flush);
+        }
+    }
+    function add_render_callback(fn) {
+        render_callbacks.push(fn);
+    }
+    // flush() calls callbacks in this order:
+    // 1. All beforeUpdate callbacks, in order: parents before children
+    // 2. All bind:this callbacks, in reverse order: children before parents.
+    // 3. All afterUpdate callbacks, in order: parents before children. EXCEPT
+    //    for afterUpdates called during the initial onMount, which are called in
+    //    reverse order: children before parents.
+    // Since callbacks might update component values, which could trigger another
+    // call to flush(), the following steps guard against this:
+    // 1. During beforeUpdate, any updated components will be added to the
+    //    dirty_components array and will cause a reentrant call to flush(). Because
+    //    the flush index is kept outside the function, the reentrant call will pick
+    //    up where the earlier call left off and go through all dirty components. The
+    //    current_component value is saved and restored so that the reentrant call will
+    //    not interfere with the "parent" flush() call.
+    // 2. bind:this callbacks cannot trigger new flush() calls.
+    // 3. During afterUpdate, any updated components will NOT have their afterUpdate
+    //    callback called a second time; the seen_callbacks set, outside the flush()
+    //    function, guarantees this behavior.
+    const seen_callbacks = new Set();
+    let flushidx = 0; // Do *not* move this inside the flush() function
+    function flush() {
+        const saved_component = current_component;
+        do {
+            // first, call beforeUpdate functions
+            // and update components
+            while (flushidx < dirty_components.length) {
+                const component = dirty_components[flushidx];
+                flushidx++;
+                set_current_component(component);
+                update(component.$$);
+            }
+            set_current_component(null);
+            dirty_components.length = 0;
+            flushidx = 0;
+            while (binding_callbacks.length)
+                binding_callbacks.pop()();
+            // then, once components are updated, call
+            // afterUpdate functions. This may cause
+            // subsequent updates...
+            for (let i = 0; i < render_callbacks.length; i += 1) {
+                const callback = render_callbacks[i];
+                if (!seen_callbacks.has(callback)) {
+                    // ...so guard against infinite loops
+                    seen_callbacks.add(callback);
+                    callback();
+                }
+            }
+            render_callbacks.length = 0;
+        } while (dirty_components.length);
+        while (flush_callbacks.length) {
+            flush_callbacks.pop()();
+        }
+        update_scheduled = false;
+        seen_callbacks.clear();
+        set_current_component(saved_component);
+    }
+    function update($$) {
+        if ($$.fragment !== null) {
+            $$.update();
+            run_all($$.before_update);
+            const dirty = $$.dirty;
+            $$.dirty = [-1];
+            $$.fragment && $$.fragment.p($$.ctx, dirty);
+            $$.after_update.forEach(add_render_callback);
+        }
+    }
+    const outroing = new Set();
+    let outros;
+    function transition_in(block, local) {
+        if (block && block.i) {
+            outroing.delete(block);
+            block.i(local);
+        }
+    }
+    function transition_out(block, local, detach, callback) {
+        if (block && block.o) {
+            if (outroing.has(block))
+                return;
+            outroing.add(block);
+            outros.c.push(() => {
+                outroing.delete(block);
+                if (callback) {
+                    if (detach)
+                        block.d(1);
+                    callback();
+                }
+            });
+            block.o(local);
+        }
+    }
+    function create_component(block) {
+        block && block.c();
+    }
+    function mount_component(component, target, anchor, customElement) {
+        const { fragment, on_mount, on_destroy, after_update } = component.$$;
+        fragment && fragment.m(target, anchor);
+        if (!customElement) {
+            // onMount happens before the initial afterUpdate
+            add_render_callback(() => {
+                const new_on_destroy = on_mount.map(run).filter(is_function);
+                if (on_destroy) {
+                    on_destroy.push(...new_on_destroy);
+                }
+                else {
+                    // Edge case - component was destroyed immediately,
+                    // most likely as a result of a binding initialising
+                    run_all(new_on_destroy);
+                }
+                component.$$.on_mount = [];
+            });
+        }
+        after_update.forEach(add_render_callback);
+    }
+    function destroy_component(component, detaching) {
+        const $$ = component.$$;
+        if ($$.fragment !== null) {
+            run_all($$.on_destroy);
+            $$.fragment && $$.fragment.d(detaching);
+            // TODO null out other refs, including component.$$ (but need to
+            // preserve final state?)
+            $$.on_destroy = $$.fragment = null;
+            $$.ctx = [];
+        }
+    }
+    function make_dirty(component, i) {
+        if (component.$$.dirty[0] === -1) {
+            dirty_components.push(component);
+            schedule_update();
+            component.$$.dirty.fill(0);
+        }
+        component.$$.dirty[(i / 31) | 0] |= (1 << (i % 31));
+    }
+    function init(component, options, instance, create_fragment, not_equal, props, append_styles, dirty = [-1]) {
+        const parent_component = current_component;
+        set_current_component(component);
+        const $$ = component.$$ = {
+            fragment: null,
+            ctx: null,
+            // state
+            props,
+            update: noop,
+            not_equal,
+            bound: blank_object(),
+            // lifecycle
+            on_mount: [],
+            on_destroy: [],
+            on_disconnect: [],
+            before_update: [],
+            after_update: [],
+            context: new Map(options.context || (parent_component ? parent_component.$$.context : [])),
+            // everything else
+            callbacks: blank_object(),
+            dirty,
+            skip_bound: false,
+            root: options.target || parent_component.$$.root
+        };
+        append_styles && append_styles($$.root);
+        let ready = false;
+        $$.ctx = instance
+            ? instance(component, options.props || {}, (i, ret, ...rest) => {
+                const value = rest.length ? rest[0] : ret;
+                if ($$.ctx && not_equal($$.ctx[i], $$.ctx[i] = value)) {
+                    if (!$$.skip_bound && $$.bound[i])
+                        $$.bound[i](value);
+                    if (ready)
+                        make_dirty(component, i);
+                }
+                return ret;
+            })
+            : [];
+        $$.update();
+        ready = true;
+        run_all($$.before_update);
+        // `false` as a special case of no DOM component
+        $$.fragment = create_fragment ? create_fragment($$.ctx) : false;
+        if (options.target) {
+            if (options.hydrate) {
+                const nodes = children(options.target);
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                $$.fragment && $$.fragment.l(nodes);
+                nodes.forEach(detach);
+            }
+            else {
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                $$.fragment && $$.fragment.c();
+            }
+            if (options.intro)
+                transition_in(component.$$.fragment);
+            mount_component(component, options.target, options.anchor, options.customElement);
+            flush();
+        }
+        set_current_component(parent_component);
+    }
+    /**
+     * Base class for Svelte components. Used when dev=false.
+     */
+    class SvelteComponent {
+        $destroy() {
+            destroy_component(this, 1);
+            this.$destroy = noop;
+        }
+        $on(type, callback) {
+            const callbacks = (this.$$.callbacks[type] || (this.$$.callbacks[type] = []));
+            callbacks.push(callback);
+            return () => {
+                const index = callbacks.indexOf(callback);
+                if (index !== -1)
+                    callbacks.splice(index, 1);
+            };
+        }
+        $set($$props) {
+            if (this.$$set && !is_empty($$props)) {
+                this.$$.skip_bound = true;
+                this.$$set($$props);
+                this.$$.skip_bound = false;
+            }
+        }
+    }
+
+    /* src\components\CloseButton.svelte generated by Svelte v3.46.2 */
+
+    function create_fragment$3(ctx) {
+    	let div1;
+    	let div0;
+    	let mounted;
+    	let dispose;
+
+    	return {
+    		c() {
+    			div1 = element("div");
+    			div0 = element("div");
+    			div0.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>`;
+    			attr(div1, "class", "flex absolute");
+    			set_style(div1, "margin-left", "75vw");
+    			set_style(div1, "-webkit-app-region", "no-drag");
+    		},
+    		m(target, anchor) {
+    			insert(target, div1, anchor);
+    			append(div1, div0);
+
+    			if (!mounted) {
+    				dispose = listen(div0, "click", /*click_handler*/ ctx[0]);
+    				mounted = true;
+    			}
+    		},
+    		p: noop,
+    		i: noop,
+    		o: noop,
+    		d(detaching) {
+    			if (detaching) detach(div1);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+    }
+
+    function instance$3($$self) {
+    	const click_handler = () => {
+    		console.log("toggle");
+    		window.ipcRenderer.send("toggle-window");
+    	};
+
+    	return [click_handler];
+    }
+
+    class CloseButton extends SvelteComponent {
+    	constructor(options) {
+    		super();
+    		init(this, options, instance$3, create_fragment$3, safe_not_equal, {});
+    	}
+    }
+
+    /* src\components\ProgressBar.svelte generated by Svelte v3.46.2 */
+
+    function create_fragment$2(ctx) {
+    	let div1;
+    	let div0;
+
+    	return {
+    		c() {
+    			div1 = element("div");
+    			div0 = element("div");
+    			attr(div0, "class", "bg-yellow-300 h-1");
+    			set_style(div0, "width", /*progress*/ ctx[0] + "%");
+    			attr(div1, "class", "w-full bg-gray-600 h-1");
+    			set_style(div1, "min-width", "80vw");
+    		},
+    		m(target, anchor) {
+    			insert(target, div1, anchor);
+    			append(div1, div0);
+    		},
+    		p(ctx, [dirty]) {
+    			if (dirty & /*progress*/ 1) {
+    				set_style(div0, "width", /*progress*/ ctx[0] + "%");
+    			}
+    		},
+    		i: noop,
+    		o: noop,
+    		d(detaching) {
+    			if (detaching) detach(div1);
+    		}
+    	};
+    }
+
+    function instance$2($$self, $$props, $$invalidate) {
+    	let { progress = 0 } = $$props;
+
+    	$$self.$$set = $$props => {
+    		if ('progress' in $$props) $$invalidate(0, progress = $$props.progress);
+    	};
+
+    	return [progress];
+    }
+
+    class ProgressBar extends SvelteComponent {
+    	constructor(options) {
+    		super();
+    		init(this, options, instance$2, create_fragment$2, safe_not_equal, { progress: 0 });
+    	}
+    }
+
+    /* src\components\OffCanvas.svelte generated by Svelte v3.46.2 */
+
+    function create_fragment$1(ctx) {
+    	let div2;
+    	let t4;
+    	let div5;
+
+    	return {
+    		c() {
+    			div2 = element("div");
+
+    			div2.innerHTML = `<div class="offcanvas-header"><h5 class="offcanvas-title" id="offcanvasBottomLabel">Offcanvas bottom</h5> 
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button></div> 
+  <div class="offcanvas-body small">...</div>`;
+
+    			t4 = space();
+    			div5 = element("div");
+
+    			div5.innerHTML = `<div class="offcanvas-header"><h5 class="offcanvas-title" id="offcanvasLabel">Offcanvas</h5> 
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button></div> 
+  <div class="offcanvas-body">Content for the offcanvas goes here. You can place just about any Bootstrap
+    component or custom elements here.</div>`;
+
+    			attr(div2, "class", "offcanvas offcanvas-bottom");
+    			attr(div2, "tabindex", "-1");
+    			attr(div2, "id", "offcanvasBottom");
+    			attr(div2, "aria-labelledby", "offcanvasBottomLabel");
+    			attr(div5, "class", "offcanvas offcanvas-start");
+    			attr(div5, "tabindex", "-1");
+    			attr(div5, "id", "offcanvas");
+    			attr(div5, "aria-labelledby", "offcanvasLabel");
+    		},
+    		m(target, anchor) {
+    			insert(target, div2, anchor);
+    			/*div2_binding*/ ctx[1](div2);
+    			insert(target, t4, anchor);
+    			insert(target, div5, anchor);
+    		},
+    		p: noop,
+    		i: noop,
+    		o: noop,
+    		d(detaching) {
+    			if (detaching) detach(div2);
+    			/*div2_binding*/ ctx[1](null);
+    			if (detaching) detach(t4);
+    			if (detaching) detach(div5);
+    		}
+    	};
+    }
+
+    function instance$1($$self, $$props, $$invalidate) {
+    	let offCanvas;
+
+    	function div2_binding($$value) {
+    		binding_callbacks[$$value ? 'unshift' : 'push'](() => {
+    			offCanvas = $$value;
+    			$$invalidate(0, offCanvas);
+    		});
+    	}
+
+    	return [offCanvas, div2_binding];
+    }
+
+    class OffCanvas extends SvelteComponent {
+    	constructor(options) {
+    		super();
+    		init(this, options, instance$1, create_fragment$1, safe_not_equal, {});
+    	}
+    }
+
+    /* src\App.svelte generated by Svelte v3.46.2 */
+
+    function create_fragment(ctx) {
+    	let div14;
+    	let main;
+    	let div13;
+    	let closebutton;
+    	let t0;
+    	let div2;
+    	let div1;
+    	let t2;
+    	let progressbar0;
+    	let t3;
+    	let div5;
+    	let div4;
+    	let t5;
+    	let progressbar1;
+    	let t6;
+    	let div7;
+    	let div6;
+    	let t8;
+    	let progressbar2;
+    	let t9;
+    	let div9;
+    	let div8;
+    	let t11;
+    	let progressbar3;
+    	let t12;
+    	let div11;
+    	let div10;
+    	let t14;
+    	let progressbar4;
+    	let t15;
+    	let div12;
+    	let t16_value = /*CURRENT_DATETIME*/ ctx[0].toLocaleString() + "";
+    	let t16;
+    	let t17;
+    	let offcanvas;
+    	let current;
+    	closebutton = new CloseButton({});
+
+    	progressbar0 = new ProgressBar({
+    			props: {
+    				progress: Math.abs(/*CURRENT_DATETIME*/ ctx[0] - /*SUN*/ ctx[1].sunrise) / Math.abs(/*SUN*/ ctx[1].sunrise - /*SUN*/ ctx[1].sunset) * 100
+    			}
+    		});
+
+    	progressbar1 = new ProgressBar({
+    			props: {
+    				progress: ((/*CURRENT_DATETIME*/ ctx[0].getHours() + 1) * 60 + /*CURRENT_DATETIME*/ ctx[0].getMinutes()) / (24 * 60) * 100
+    			}
+    		});
+
+    	progressbar2 = new ProgressBar({
+    			props: {
+    				progress: (/*CURRENT_DATETIME*/ ctx[0].getDay() === 0
+    				? 7
+    				: /*CURRENT_DATETIME*/ ctx[0].getDay()) / 7 * 100
+    			}
+    		});
+
+    	progressbar3 = new ProgressBar({
+    			props: {
+    				progress: /*CURRENT_DATETIME*/ ctx[0].getDate() / new Date(/*CURRENT_DATETIME*/ ctx[0].getFullYear(), /*CURRENT_DATETIME*/ ctx[0].getMonth() + 1, 0).getDate() * 100
+    			}
+    		});
+
+    	progressbar4 = new ProgressBar({
+    			props: {
+    				progress: /*getDaysPassed*/ ctx[2]() / (/*CURRENT_DATETIME*/ ctx[0] % 4 == 0 ? 366 : 365) * 100
+    			}
+    		});
+
+    	offcanvas = new OffCanvas({});
+
+    	return {
+    		c() {
+    			div14 = element("div");
+    			main = element("main");
+    			div13 = element("div");
+    			create_component(closebutton.$$.fragment);
+    			t0 = space();
+    			div2 = element("div");
+    			div1 = element("div");
+    			div1.innerHTML = `<div>Daylight</div>`;
+    			t2 = space();
+    			create_component(progressbar0.$$.fragment);
+    			t3 = space();
+    			div5 = element("div");
+    			div4 = element("div");
+    			div4.innerHTML = `<div>Today</div>`;
+    			t5 = space();
+    			create_component(progressbar1.$$.fragment);
+    			t6 = space();
+    			div7 = element("div");
+    			div6 = element("div");
+    			div6.textContent = "This week";
+    			t8 = space();
+    			create_component(progressbar2.$$.fragment);
+    			t9 = space();
+    			div9 = element("div");
+    			div8 = element("div");
+    			div8.textContent = "This month";
+    			t11 = space();
+    			create_component(progressbar3.$$.fragment);
+    			t12 = space();
+    			div11 = element("div");
+    			div10 = element("div");
+    			div10.textContent = "This year";
+    			t14 = space();
+    			create_component(progressbar4.$$.fragment);
+    			t15 = space();
+    			div12 = element("div");
+    			t16 = text(t16_value);
+    			t17 = space();
+    			create_component(offcanvas.$$.fragment);
+    			attr(div1, "class", "my-1");
+    			attr(div2, "class", "text-left");
+    			attr(div4, "class", "my-1");
+    			attr(div5, "class", "text-left");
+    			attr(div6, "class", "my-1");
+    			attr(div7, "class", "text-left");
+    			attr(div8, "class", "my-1");
+    			attr(div9, "class", "text-left");
+    			attr(div10, "class", "my-1");
+    			attr(div11, "class", "text-left");
+    			attr(div12, "class", "mt-3");
+    			attr(div13, "class", "m-auto");
+    			attr(main, "class", "h-screen flex justify-center items-center text-white");
+    			attr(div14, "class", "min-h-screen min-w-screen bg-stone-900 text-center");
+    		},
+    		m(target, anchor) {
+    			insert(target, div14, anchor);
+    			append(div14, main);
+    			append(main, div13);
+    			mount_component(closebutton, div13, null);
+    			append(div13, t0);
+    			append(div13, div2);
+    			append(div2, div1);
+    			append(div2, t2);
+    			mount_component(progressbar0, div2, null);
+    			append(div13, t3);
+    			append(div13, div5);
+    			append(div5, div4);
+    			append(div5, t5);
+    			mount_component(progressbar1, div5, null);
+    			append(div13, t6);
+    			append(div13, div7);
+    			append(div7, div6);
+    			append(div7, t8);
+    			mount_component(progressbar2, div7, null);
+    			append(div13, t9);
+    			append(div13, div9);
+    			append(div9, div8);
+    			append(div9, t11);
+    			mount_component(progressbar3, div9, null);
+    			append(div13, t12);
+    			append(div13, div11);
+    			append(div11, div10);
+    			append(div11, t14);
+    			mount_component(progressbar4, div11, null);
+    			append(div13, t15);
+    			append(div13, div12);
+    			append(div12, t16);
+    			append(div13, t17);
+    			mount_component(offcanvas, div13, null);
+    			current = true;
+    		},
+    		p(ctx, [dirty]) {
+    			const progressbar0_changes = {};
+    			if (dirty & /*CURRENT_DATETIME*/ 1) progressbar0_changes.progress = Math.abs(/*CURRENT_DATETIME*/ ctx[0] - /*SUN*/ ctx[1].sunrise) / Math.abs(/*SUN*/ ctx[1].sunrise - /*SUN*/ ctx[1].sunset) * 100;
+    			progressbar0.$set(progressbar0_changes);
+    			const progressbar1_changes = {};
+    			if (dirty & /*CURRENT_DATETIME*/ 1) progressbar1_changes.progress = ((/*CURRENT_DATETIME*/ ctx[0].getHours() + 1) * 60 + /*CURRENT_DATETIME*/ ctx[0].getMinutes()) / (24 * 60) * 100;
+    			progressbar1.$set(progressbar1_changes);
+    			const progressbar2_changes = {};
+
+    			if (dirty & /*CURRENT_DATETIME*/ 1) progressbar2_changes.progress = (/*CURRENT_DATETIME*/ ctx[0].getDay() === 0
+    			? 7
+    			: /*CURRENT_DATETIME*/ ctx[0].getDay()) / 7 * 100;
+
+    			progressbar2.$set(progressbar2_changes);
+    			const progressbar3_changes = {};
+    			if (dirty & /*CURRENT_DATETIME*/ 1) progressbar3_changes.progress = /*CURRENT_DATETIME*/ ctx[0].getDate() / new Date(/*CURRENT_DATETIME*/ ctx[0].getFullYear(), /*CURRENT_DATETIME*/ ctx[0].getMonth() + 1, 0).getDate() * 100;
+    			progressbar3.$set(progressbar3_changes);
+    			const progressbar4_changes = {};
+    			if (dirty & /*CURRENT_DATETIME*/ 1) progressbar4_changes.progress = /*getDaysPassed*/ ctx[2]() / (/*CURRENT_DATETIME*/ ctx[0] % 4 == 0 ? 366 : 365) * 100;
+    			progressbar4.$set(progressbar4_changes);
+    			if ((!current || dirty & /*CURRENT_DATETIME*/ 1) && t16_value !== (t16_value = /*CURRENT_DATETIME*/ ctx[0].toLocaleString() + "")) set_data(t16, t16_value);
+    		},
+    		i(local) {
+    			if (current) return;
+    			transition_in(closebutton.$$.fragment, local);
+    			transition_in(progressbar0.$$.fragment, local);
+    			transition_in(progressbar1.$$.fragment, local);
+    			transition_in(progressbar2.$$.fragment, local);
+    			transition_in(progressbar3.$$.fragment, local);
+    			transition_in(progressbar4.$$.fragment, local);
+    			transition_in(offcanvas.$$.fragment, local);
+    			current = true;
+    		},
+    		o(local) {
+    			transition_out(closebutton.$$.fragment, local);
+    			transition_out(progressbar0.$$.fragment, local);
+    			transition_out(progressbar1.$$.fragment, local);
+    			transition_out(progressbar2.$$.fragment, local);
+    			transition_out(progressbar3.$$.fragment, local);
+    			transition_out(progressbar4.$$.fragment, local);
+    			transition_out(offcanvas.$$.fragment, local);
+    			current = false;
+    		},
+    		d(detaching) {
+    			if (detaching) detach(div14);
+    			destroy_component(closebutton);
+    			destroy_component(progressbar0);
+    			destroy_component(progressbar1);
+    			destroy_component(progressbar2);
+    			destroy_component(progressbar3);
+    			destroy_component(progressbar4);
+    			destroy_component(offcanvas);
+    		}
+    	};
+    }
+
+    function instance($$self, $$props, $$invalidate) {
+    	const SunCalc = require("suncalc");
+    	let CURRENT_DATETIME = new Date();
+    	let SUN = SunCalc.getTimes(CURRENT_DATETIME, 37.566536, 126.977966);
+
+    	const getDaysPassed = () => {
+    		const YEAR_START = new Date(CURRENT_DATETIME.getFullYear(), 0, 0);
+    		const DIFF = CURRENT_DATETIME - YEAR_START + (YEAR_START.getTimezoneOffset() - CURRENT_DATETIME.getTimezoneOffset()) * 60 * 1000;
+    		const ONE_DAY = 1000 * 60 * 60 * 24;
+    		const day = Math.floor(DIFF / ONE_DAY);
+    		return day;
+    	};
+
+    	onMount(() => {
+    		console.log(SUN);
+
+    		setInterval(
+    			() => {
+    				$$invalidate(0, CURRENT_DATETIME = new Date());
+    			},
+    			1000
+    		);
+    	});
+
+    	$$self.$$.update = () => {
+    		if ($$self.$$.dirty & /*CURRENT_DATETIME*/ 1) {
+    			(((function () {
+    				((CURRENT_DATETIME.getHours() + 1) * 60 + CURRENT_DATETIME.getMinutes()) / (24 * 60) * 100;
+    			}))());
+    		}
+    	};
+
+    	return [CURRENT_DATETIME, SUN, getDaysPassed];
+    }
+
+    class App extends SvelteComponent {
+    	constructor(options) {
+    		super();
+    		init(this, options, instance, create_fragment, safe_not_equal, {});
+    	}
+    }
+
+    const app = new App({
+    	target: document.body,
+    	props: {
+    		name: 'world'
+    	}
+    });
+
+    return app;
+
+})();
 //# sourceMappingURL=bundle.js.map
