@@ -46,7 +46,18 @@
       CURRENT_DATETIME = new Date();
     }, 1000);
   });
+
+  const handleKeyUp = (e) => {
+    // this would test for whichever key is 40 (down arrow) and the ctrl key at the same time
+    if (e.ctrlKey && e.key === "t") {
+      // call your function to do the thing
+      console.log("screenOnTop");
+      window.ipcRenderer.send("screen-on-top");
+    }
+  };
 </script>
+
+<svelte:window on:keyup={handleKeyUp} />
 
 <div class="min-h-screen min-w-screen bg-stone-900 text-center">
   <main class="h-screen flex justify-center items-center text-white">

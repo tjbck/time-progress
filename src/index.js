@@ -10,6 +10,8 @@ protocol.registerSchemesAsPrivileged([
 ])
 
 let mainWindow;
+let screenOnTop = false;
+
 
 function launchAtStartup() {
   if (process.platform === "darwin") {
@@ -98,6 +100,15 @@ const toggleWindow = () => {
   }
 }
 
+const toggleScreenOnTop = () => {
+
+  screenOnTop = !screenOnTop
+  mainWindow.setAlwaysOnTop(screenOnTop, 'screen');
+
+  
+}
+
+
 const showWindow = () => {
   // const position = getWindowPosition()
   // win.setPosition(position.x, position.y, false)
@@ -177,3 +188,10 @@ ipcMain.on("toggle-window", function () {
   console.log("electron:toggle-window")
   toggleWindow()
 });
+
+
+ipcMain.on("screen-on-top", function () {
+  console.log("electron:screen-on-top")
+  toggleScreenOnTop()
+});
+
