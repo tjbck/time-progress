@@ -2,7 +2,7 @@
 
 ⌛ Track time progress.
 
-![image](https://user-images.githubusercontent.com/25473318/150580714-b6a4933a-604a-4d1c-965d-2521110054ba.png)
+![image](https://user-images.githubusercontent.com/25473318/150788804-85fc7dea-dabb-4fba-a8fd-e932493a8bbb.png)
 
 ## Installation
 
