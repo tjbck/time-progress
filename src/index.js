@@ -10,7 +10,7 @@ protocol.registerSchemesAsPrivileged([
 ])
 
 let mainWindow;
-let screenOnTop = false;
+let alwaysOnTop = false;
 
 
 function launchAtStartup() {
@@ -100,12 +100,9 @@ const toggleWindow = () => {
   }
 }
 
-const toggleScreenOnTop = () => {
-
-  screenOnTop = !screenOnTop
-  mainWindow.setAlwaysOnTop(screenOnTop, 'screen');
-
-  
+const toggleAlwaysOnTop = () => {
+  alwaysOnTop = !alwaysOnTop
+  mainWindow.setAlwaysOnTop(alwaysOnTop, 'screen');
 }
 
 
@@ -190,8 +187,8 @@ ipcMain.on("toggle-window", function () {
 });
 
 
-ipcMain.on("screen-on-top", function () {
-  console.log("electron:screen-on-top")
-  toggleScreenOnTop()
+ipcMain.on("always-on-top", function () {
+  console.log("electron:always-on-top")
+  toggleAlwaysOnTop()
 });
 

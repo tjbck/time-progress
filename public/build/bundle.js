@@ -163,6 +163,19 @@ var app = (function () {
     }
     const outroing = new Set();
     let outros;
+    function group_outros() {
+        outros = {
+            r: 0,
+            c: [],
+            p: outros // parent group
+        };
+    }
+    function check_outros() {
+        if (!outros.r) {
+            run_all(outros.c);
+        }
+        outros = outros.p;
+    }
     function transition_in(block, local) {
         if (block && block.i) {
             outroing.delete(block);
@@ -384,7 +397,7 @@ var app = (function () {
     			div1 = element("div");
     			div0 = element("div");
     			attr(div0, "class", "bg-yellow-300 h-1");
-    			set_style(div0, "width", /*progress*/ ctx[0] + "%");
+    			set_style(div0, "width", Math.min(Math.max(/*progress*/ ctx[0], 0), 100) + "%");
     			attr(div1, "class", "w-full bg-gray-600 h-1");
     			set_style(div1, "min-width", "80vw");
     		},
@@ -394,7 +407,7 @@ var app = (function () {
     		},
     		p(ctx, [dirty]) {
     			if (dirty & /*progress*/ 1) {
-    				set_style(div0, "width", /*progress*/ ctx[0] + "%");
+    				set_style(div0, "width", Math.min(Math.max(/*progress*/ ctx[0], 0), 100) + "%");
     			}
     		},
     		i: noop,
@@ -496,230 +509,337 @@ var app = (function () {
 
     const { window: window_1 } = globals;
 
+    function create_else_block(ctx) {
+    	let div1;
+    	let t1;
+    	let progressbar;
+    	let current;
+
+    	progressbar = new ProgressBar({
+    			props: {
+    				progress: /*PROGRESS_NIGHTTIME*/ ctx[2] * 100
+    			}
+    		});
+
+    	return {
+    		c() {
+    			div1 = element("div");
+    			div1.innerHTML = `<div>Nighttime</div>`;
+    			t1 = space();
+    			create_component(progressbar.$$.fragment);
+    			attr(div1, "class", "my-1");
+    		},
+    		m(target, anchor) {
+    			insert(target, div1, anchor);
+    			insert(target, t1, anchor);
+    			mount_component(progressbar, target, anchor);
+    			current = true;
+    		},
+    		p(ctx, dirty) {
+    			const progressbar_changes = {};
+    			if (dirty & /*PROGRESS_NIGHTTIME*/ 4) progressbar_changes.progress = /*PROGRESS_NIGHTTIME*/ ctx[2] * 100;
+    			progressbar.$set(progressbar_changes);
+    		},
+    		i(local) {
+    			if (current) return;
+    			transition_in(progressbar.$$.fragment, local);
+    			current = true;
+    		},
+    		o(local) {
+    			transition_out(progressbar.$$.fragment, local);
+    			current = false;
+    		},
+    		d(detaching) {
+    			if (detaching) detach(div1);
+    			if (detaching) detach(t1);
+    			destroy_component(progressbar, detaching);
+    		}
+    	};
+    }
+
+    // (131:8) {#if PROGRESS_DAYLIGHT > 0 && PROGRESS_DAYLIGHT < 1}
+    function create_if_block(ctx) {
+    	let div1;
+    	let t1;
+    	let progressbar;
+    	let current;
+
+    	progressbar = new ProgressBar({
+    			props: {
+    				progress: /*PROGRESS_DAYLIGHT*/ ctx[1] * 100
+    			}
+    		});
+
+    	return {
+    		c() {
+    			div1 = element("div");
+    			div1.innerHTML = `<div>Daylight</div>`;
+    			t1 = space();
+    			create_component(progressbar.$$.fragment);
+    			attr(div1, "class", "my-1");
+    		},
+    		m(target, anchor) {
+    			insert(target, div1, anchor);
+    			insert(target, t1, anchor);
+    			mount_component(progressbar, target, anchor);
+    			current = true;
+    		},
+    		p(ctx, dirty) {
+    			const progressbar_changes = {};
+    			if (dirty & /*PROGRESS_DAYLIGHT*/ 2) progressbar_changes.progress = /*PROGRESS_DAYLIGHT*/ ctx[1] * 100;
+    			progressbar.$set(progressbar_changes);
+    		},
+    		i(local) {
+    			if (current) return;
+    			transition_in(progressbar.$$.fragment, local);
+    			current = true;
+    		},
+    		o(local) {
+    			transition_out(progressbar.$$.fragment, local);
+    			current = false;
+    		},
+    		d(detaching) {
+    			if (detaching) detach(div1);
+    			if (detaching) detach(t1);
+    			destroy_component(progressbar, detaching);
+    		}
+    	};
+    }
+
     function create_fragment(ctx) {
-    	let div14;
+    	let div12;
     	let main;
-    	let div13;
+    	let div11;
     	let closebutton;
     	let t0;
+    	let div0;
+    	let current_block_type_index;
+    	let if_block;
+    	let t1;
+    	let div3;
     	let div2;
-    	let div1;
-    	let t2;
-    	let progressbar0;
     	let t3;
+    	let progressbar0;
+    	let t4;
     	let div5;
     	let div4;
-    	let t5;
-    	let progressbar1;
     	let t6;
+    	let progressbar1;
+    	let t7;
     	let div7;
     	let div6;
-    	let t8;
-    	let progressbar2;
     	let t9;
+    	let progressbar2;
+    	let t10;
     	let div9;
     	let div8;
-    	let t11;
-    	let progressbar3;
     	let t12;
-    	let div11;
+    	let progressbar3;
+    	let t13;
     	let div10;
+    	let t14_value = /*CURRENT_DATETIME*/ ctx[0].toLocaleString() + "";
     	let t14;
-    	let progressbar4;
     	let t15;
-    	let div12;
-    	let t16_value = /*CURRENT_DATETIME*/ ctx[0].toLocaleString() + "";
-    	let t16;
-    	let t17;
     	let offcanvas;
     	let current;
     	let mounted;
     	let dispose;
     	closebutton = new CloseButton({});
+    	const if_block_creators = [create_if_block, create_else_block];
+    	const if_blocks = [];
+
+    	function select_block_type(ctx, dirty) {
+    		if (/*PROGRESS_DAYLIGHT*/ ctx[1] > 0 && /*PROGRESS_DAYLIGHT*/ ctx[1] < 1) return 0;
+    		return 1;
+    	}
+
+    	current_block_type_index = select_block_type(ctx);
+    	if_block = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
 
     	progressbar0 = new ProgressBar({
     			props: {
-    				progress: Math.abs(/*CURRENT_DATETIME*/ ctx[0] - /*SUN*/ ctx[1].sunrise) / Math.abs(/*SUN*/ ctx[1].sunrise - /*SUN*/ ctx[1].sunset) * 100
+    				progress: /*PROGRESS_TODAY*/ ctx[3] * 100
     			}
     		});
 
     	progressbar1 = new ProgressBar({
-    			props: {
-    				progress: ((/*CURRENT_DATETIME*/ ctx[0].getHours() + 1) * 60 + /*CURRENT_DATETIME*/ ctx[0].getMinutes()) / (24 * 60) * 100
-    			}
+    			props: { progress: /*PROGRESS_WEEK*/ ctx[4] * 100 }
     		});
 
     	progressbar2 = new ProgressBar({
     			props: {
-    				progress: (/*CURRENT_DATETIME*/ ctx[0].getDay() === 0
-    				? 7
-    				: /*CURRENT_DATETIME*/ ctx[0].getDay()) / 7 * 100
+    				progress: /*PROGRESS_MONTH*/ ctx[5] * 100
     			}
     		});
 
     	progressbar3 = new ProgressBar({
-    			props: {
-    				progress: /*CURRENT_DATETIME*/ ctx[0].getDate() / new Date(/*CURRENT_DATETIME*/ ctx[0].getFullYear(), /*CURRENT_DATETIME*/ ctx[0].getMonth() + 1, 0).getDate() * 100
-    			}
-    		});
-
-    	progressbar4 = new ProgressBar({
-    			props: {
-    				progress: /*getDaysPassed*/ ctx[2]() / (/*CURRENT_DATETIME*/ ctx[0] % 4 == 0 ? 366 : 365) * 100
-    			}
+    			props: { progress: /*PROGRESS_YEAR*/ ctx[6] * 100 }
     		});
 
     	offcanvas = new OffCanvas({});
 
     	return {
     		c() {
-    			div14 = element("div");
+    			div12 = element("div");
     			main = element("main");
-    			div13 = element("div");
+    			div11 = element("div");
     			create_component(closebutton.$$.fragment);
     			t0 = space();
+    			div0 = element("div");
+    			if_block.c();
+    			t1 = space();
+    			div3 = element("div");
     			div2 = element("div");
-    			div1 = element("div");
-    			div1.innerHTML = `<div>Daylight</div>`;
-    			t2 = space();
-    			create_component(progressbar0.$$.fragment);
+    			div2.innerHTML = `<div>Today</div>`;
     			t3 = space();
+    			create_component(progressbar0.$$.fragment);
+    			t4 = space();
     			div5 = element("div");
     			div4 = element("div");
-    			div4.innerHTML = `<div>Today</div>`;
-    			t5 = space();
-    			create_component(progressbar1.$$.fragment);
+    			div4.textContent = "This week";
     			t6 = space();
+    			create_component(progressbar1.$$.fragment);
+    			t7 = space();
     			div7 = element("div");
     			div6 = element("div");
-    			div6.textContent = "This week";
-    			t8 = space();
-    			create_component(progressbar2.$$.fragment);
+    			div6.textContent = "This month";
     			t9 = space();
+    			create_component(progressbar2.$$.fragment);
+    			t10 = space();
     			div9 = element("div");
     			div8 = element("div");
-    			div8.textContent = "This month";
-    			t11 = space();
-    			create_component(progressbar3.$$.fragment);
+    			div8.textContent = "This year";
     			t12 = space();
-    			div11 = element("div");
+    			create_component(progressbar3.$$.fragment);
+    			t13 = space();
     			div10 = element("div");
-    			div10.textContent = "This year";
-    			t14 = space();
-    			create_component(progressbar4.$$.fragment);
+    			t14 = text(t14_value);
     			t15 = space();
-    			div12 = element("div");
-    			t16 = text(t16_value);
-    			t17 = space();
     			create_component(offcanvas.$$.fragment);
-    			attr(div1, "class", "my-1");
-    			attr(div2, "class", "text-left");
+    			attr(div0, "class", "text-left");
+    			attr(div2, "class", "my-1");
+    			attr(div3, "class", "text-left");
     			attr(div4, "class", "my-1");
     			attr(div5, "class", "text-left");
     			attr(div6, "class", "my-1");
     			attr(div7, "class", "text-left");
     			attr(div8, "class", "my-1");
     			attr(div9, "class", "text-left");
-    			attr(div10, "class", "my-1");
-    			attr(div11, "class", "text-left");
-    			attr(div12, "class", "mt-3");
-    			attr(div13, "class", "m-auto");
+    			attr(div10, "class", "mt-3");
+    			attr(div11, "class", "m-auto");
     			attr(main, "class", "h-screen flex justify-center items-center text-white");
-    			attr(div14, "class", "min-h-screen min-w-screen bg-stone-900 text-center");
+    			attr(div12, "class", "min-h-screen min-w-screen bg-stone-900 text-center");
     		},
     		m(target, anchor) {
-    			insert(target, div14, anchor);
-    			append(div14, main);
-    			append(main, div13);
-    			mount_component(closebutton, div13, null);
-    			append(div13, t0);
-    			append(div13, div2);
-    			append(div2, div1);
-    			append(div2, t2);
-    			mount_component(progressbar0, div2, null);
-    			append(div13, t3);
-    			append(div13, div5);
+    			insert(target, div12, anchor);
+    			append(div12, main);
+    			append(main, div11);
+    			mount_component(closebutton, div11, null);
+    			append(div11, t0);
+    			append(div11, div0);
+    			if_blocks[current_block_type_index].m(div0, null);
+    			append(div11, t1);
+    			append(div11, div3);
+    			append(div3, div2);
+    			append(div3, t3);
+    			mount_component(progressbar0, div3, null);
+    			append(div11, t4);
+    			append(div11, div5);
     			append(div5, div4);
-    			append(div5, t5);
+    			append(div5, t6);
     			mount_component(progressbar1, div5, null);
-    			append(div13, t6);
-    			append(div13, div7);
+    			append(div11, t7);
+    			append(div11, div7);
     			append(div7, div6);
-    			append(div7, t8);
+    			append(div7, t9);
     			mount_component(progressbar2, div7, null);
-    			append(div13, t9);
-    			append(div13, div9);
+    			append(div11, t10);
+    			append(div11, div9);
     			append(div9, div8);
-    			append(div9, t11);
+    			append(div9, t12);
     			mount_component(progressbar3, div9, null);
-    			append(div13, t12);
-    			append(div13, div11);
+    			append(div11, t13);
     			append(div11, div10);
-    			append(div11, t14);
-    			mount_component(progressbar4, div11, null);
-    			append(div13, t15);
-    			append(div13, div12);
-    			append(div12, t16);
-    			append(div13, t17);
-    			mount_component(offcanvas, div13, null);
+    			append(div10, t14);
+    			append(div11, t15);
+    			mount_component(offcanvas, div11, null);
     			current = true;
 
     			if (!mounted) {
-    				dispose = listen(window_1, "keyup", /*handleKeyUp*/ ctx[3]);
+    				dispose = listen(window_1, "keyup", /*handleKeyUp*/ ctx[7]);
     				mounted = true;
     			}
     		},
     		p(ctx, [dirty]) {
+    			let previous_block_index = current_block_type_index;
+    			current_block_type_index = select_block_type(ctx);
+
+    			if (current_block_type_index === previous_block_index) {
+    				if_blocks[current_block_type_index].p(ctx, dirty);
+    			} else {
+    				group_outros();
+
+    				transition_out(if_blocks[previous_block_index], 1, 1, () => {
+    					if_blocks[previous_block_index] = null;
+    				});
+
+    				check_outros();
+    				if_block = if_blocks[current_block_type_index];
+
+    				if (!if_block) {
+    					if_block = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
+    					if_block.c();
+    				} else {
+    					if_block.p(ctx, dirty);
+    				}
+
+    				transition_in(if_block, 1);
+    				if_block.m(div0, null);
+    			}
+
     			const progressbar0_changes = {};
-    			if (dirty & /*CURRENT_DATETIME*/ 1) progressbar0_changes.progress = Math.abs(/*CURRENT_DATETIME*/ ctx[0] - /*SUN*/ ctx[1].sunrise) / Math.abs(/*SUN*/ ctx[1].sunrise - /*SUN*/ ctx[1].sunset) * 100;
+    			if (dirty & /*PROGRESS_TODAY*/ 8) progressbar0_changes.progress = /*PROGRESS_TODAY*/ ctx[3] * 100;
     			progressbar0.$set(progressbar0_changes);
     			const progressbar1_changes = {};
-    			if (dirty & /*CURRENT_DATETIME*/ 1) progressbar1_changes.progress = ((/*CURRENT_DATETIME*/ ctx[0].getHours() + 1) * 60 + /*CURRENT_DATETIME*/ ctx[0].getMinutes()) / (24 * 60) * 100;
+    			if (dirty & /*PROGRESS_WEEK*/ 16) progressbar1_changes.progress = /*PROGRESS_WEEK*/ ctx[4] * 100;
     			progressbar1.$set(progressbar1_changes);
     			const progressbar2_changes = {};
-
-    			if (dirty & /*CURRENT_DATETIME*/ 1) progressbar2_changes.progress = (/*CURRENT_DATETIME*/ ctx[0].getDay() === 0
-    			? 7
-    			: /*CURRENT_DATETIME*/ ctx[0].getDay()) / 7 * 100;
-
+    			if (dirty & /*PROGRESS_MONTH*/ 32) progressbar2_changes.progress = /*PROGRESS_MONTH*/ ctx[5] * 100;
     			progressbar2.$set(progressbar2_changes);
     			const progressbar3_changes = {};
-    			if (dirty & /*CURRENT_DATETIME*/ 1) progressbar3_changes.progress = /*CURRENT_DATETIME*/ ctx[0].getDate() / new Date(/*CURRENT_DATETIME*/ ctx[0].getFullYear(), /*CURRENT_DATETIME*/ ctx[0].getMonth() + 1, 0).getDate() * 100;
+    			if (dirty & /*PROGRESS_YEAR*/ 64) progressbar3_changes.progress = /*PROGRESS_YEAR*/ ctx[6] * 100;
     			progressbar3.$set(progressbar3_changes);
-    			const progressbar4_changes = {};
-    			if (dirty & /*CURRENT_DATETIME*/ 1) progressbar4_changes.progress = /*getDaysPassed*/ ctx[2]() / (/*CURRENT_DATETIME*/ ctx[0] % 4 == 0 ? 366 : 365) * 100;
-    			progressbar4.$set(progressbar4_changes);
-    			if ((!current || dirty & /*CURRENT_DATETIME*/ 1) && t16_value !== (t16_value = /*CURRENT_DATETIME*/ ctx[0].toLocaleString() + "")) set_data(t16, t16_value);
+    			if ((!current || dirty & /*CURRENT_DATETIME*/ 1) && t14_value !== (t14_value = /*CURRENT_DATETIME*/ ctx[0].toLocaleString() + "")) set_data(t14, t14_value);
     		},
     		i(local) {
     			if (current) return;
     			transition_in(closebutton.$$.fragment, local);
+    			transition_in(if_block);
     			transition_in(progressbar0.$$.fragment, local);
     			transition_in(progressbar1.$$.fragment, local);
     			transition_in(progressbar2.$$.fragment, local);
     			transition_in(progressbar3.$$.fragment, local);
-    			transition_in(progressbar4.$$.fragment, local);
     			transition_in(offcanvas.$$.fragment, local);
     			current = true;
     		},
     		o(local) {
     			transition_out(closebutton.$$.fragment, local);
+    			transition_out(if_block);
     			transition_out(progressbar0.$$.fragment, local);
     			transition_out(progressbar1.$$.fragment, local);
     			transition_out(progressbar2.$$.fragment, local);
     			transition_out(progressbar3.$$.fragment, local);
-    			transition_out(progressbar4.$$.fragment, local);
     			transition_out(offcanvas.$$.fragment, local);
     			current = false;
     		},
     		d(detaching) {
-    			if (detaching) detach(div14);
+    			if (detaching) detach(div12);
     			destroy_component(closebutton);
+    			if_blocks[current_block_type_index].d();
     			destroy_component(progressbar0);
     			destroy_component(progressbar1);
     			destroy_component(progressbar2);
     			destroy_component(progressbar3);
-    			destroy_component(progressbar4);
     			destroy_component(offcanvas);
     			mounted = false;
     			dispose();
@@ -727,21 +847,40 @@ var app = (function () {
     	};
     }
 
+    const SECOND = 1000;
+
     function instance($$self, $$props, $$invalidate) {
     	const SunCalc = require("suncalc");
+    	const COORDINATE = [37.566536, 126.977966]; //LAT,LON
     	let CURRENT_DATETIME = new Date();
-    	let SUN = SunCalc.getTimes(CURRENT_DATETIME, 37.566536, 126.977966);
+    	const MINUTE = 60 * SECOND;
+    	const HOUR = 60 * MINUTE;
+    	const DAY = 24 * HOUR;
+    	let YESTERDAY = new Date(CURRENT_DATETIME.getTime() - DAY);
+    	let TOMORROW = new Date(CURRENT_DATETIME.getTime() + DAY);
+    	let SUN_YESTERDAY = SunCalc.getTimes(YESTERDAY, COORDINATE[0], COORDINATE[1]);
+    	let SUN = SunCalc.getTimes(CURRENT_DATETIME, COORDINATE[0], COORDINATE[1]);
+    	let SUN_TOMORROW = SunCalc.getTimes(TOMORROW, COORDINATE[0], COORDINATE[1]);
+
+    	// PROGRESS
+    	let PROGRESS_DAYLIGHT = null;
+
+    	let PROGRESS_NIGHTTIME = null;
+    	let PROGRESS_TODAY = null;
+    	let PROGRESS_WEEK = null;
+    	let PROGRESS_MONTH = null;
+    	let PROGRESS_YEAR = null;
 
     	const getDaysPassed = () => {
     		const YEAR_START = new Date(CURRENT_DATETIME.getFullYear(), 0, 0);
-    		const DIFF = CURRENT_DATETIME - YEAR_START + (YEAR_START.getTimezoneOffset() - CURRENT_DATETIME.getTimezoneOffset()) * 60 * 1000;
-    		const ONE_DAY = 1000 * 60 * 60 * 24;
-    		const day = Math.floor(DIFF / ONE_DAY);
-    		return day;
+    		const DIFF = CURRENT_DATETIME - YEAR_START + (YEAR_START.getTimezoneOffset() - CURRENT_DATETIME.getTimezoneOffset()) * MINUTE;
+    		return Math.floor(DIFF / DAY);
     	};
 
     	onMount(() => {
+    		console.log(SUN_YESTERDAY);
     		console.log(SUN);
+    		console.log(SUN_TOMORROW);
 
     		setInterval(
     			() => {
@@ -755,21 +894,70 @@ var app = (function () {
     		// this would test for whichever key is 40 (down arrow) and the ctrl key at the same time
     		if (e.ctrlKey && e.key === "t") {
     			// call your function to do the thing
-    			console.log("screenOnTop");
+    			console.log("alwaysOnTop");
 
-    			window.ipcRenderer.send("screen-on-top");
+    			window.ipcRenderer.send("always-on-top");
     		}
     	};
 
     	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*CURRENT_DATETIME*/ 1) {
+    		if ($$self.$$.dirty & /*CURRENT_DATETIME, TOMORROW, SUN, SUN_TOMORROW, PROGRESS_DAYLIGHT, PROGRESS_NIGHTTIME, SUN_YESTERDAY, PROGRESS_TODAY*/ 3855) {
     			(((function () {
-    				((CURRENT_DATETIME.getHours() + 1) * 60 + CURRENT_DATETIME.getMinutes()) / (24 * 60) * 100;
+    				if (CURRENT_DATETIME.toDateString() === TOMORROW.toDateString()) {
+    					YESTERDAY = new Date(CURRENT_DATETIME.getTime() - DAY);
+    					$$invalidate(8, TOMORROW = new Date(CURRENT_DATETIME.getTime() + DAY));
+    					$$invalidate(9, SUN_YESTERDAY = SUN);
+    					$$invalidate(10, SUN = SUN_TOMORROW);
+    					$$invalidate(11, SUN_TOMORROW = SunCalc.getTimes(TOMORROW, COORDINATE[0], COORDINATE[1]));
+    				}
+
+    				// PROGRESS DAYLIGHT (0-1)
+    				$$invalidate(1, PROGRESS_DAYLIGHT = (CURRENT_DATETIME - SUN.sunrise) / Math.abs(SUN.sunrise - SUN.sunset));
+
+    				console.log('PROGRESS_DAYLIGHT', PROGRESS_DAYLIGHT);
+
+    				// console.log(
+    				//   CURRENT_DATETIME - SUN.sunset
+    				// );
+    				// PROGRESS NIGHTTIME (0-1)
+    				$$invalidate(2, PROGRESS_NIGHTTIME = (CURRENT_DATETIME - SUN.sunset) / Math.abs(SUN.sunset - SUN_TOMORROW.sunrise));
+
+    				if (!(PROGRESS_NIGHTTIME > 0 && PROGRESS_NIGHTTIME < 1)) {
+    					$$invalidate(2, PROGRESS_NIGHTTIME = (CURRENT_DATETIME - SUN_YESTERDAY.sunset) / Math.abs(SUN_YESTERDAY.sunset - SUN.sunrise));
+    				}
+
+    				console.log('PROGRESS_NIGHTTIME', PROGRESS_NIGHTTIME);
+
+    				// PROGRESS TODAY 0-24 -> (0-1) 
+    				$$invalidate(3, PROGRESS_TODAY = ((CURRENT_DATETIME.getHours() + 1) * 60 + CURRENT_DATETIME.getMinutes()) / (24 * 60));
+
+    				// PROGRESS WEEK Mon-Sun -> (0-1) 
+    				$$invalidate(4, PROGRESS_WEEK = (CURRENT_DATETIME.getDay() === 0
+    				? 6
+    				: CURRENT_DATETIME.getDay() - 1) + PROGRESS_TODAY / 7);
+
+    				// PROGRESS MONTH (0-1)
+    				$$invalidate(5, PROGRESS_MONTH = (CURRENT_DATETIME.getDate() - 1 + PROGRESS_TODAY) / new Date(CURRENT_DATETIME.getFullYear(), CURRENT_DATETIME.getMonth() + 1, 0).getDate());
+
+    				$$invalidate(6, PROGRESS_YEAR = (getDaysPassed() - 1 + PROGRESS_TODAY) / (CURRENT_DATETIME % 4 == 0 ? 366 : 365));
     			}))());
     		}
     	};
 
-    	return [CURRENT_DATETIME, SUN, getDaysPassed, handleKeyUp];
+    	return [
+    		CURRENT_DATETIME,
+    		PROGRESS_DAYLIGHT,
+    		PROGRESS_NIGHTTIME,
+    		PROGRESS_TODAY,
+    		PROGRESS_WEEK,
+    		PROGRESS_MONTH,
+    		PROGRESS_YEAR,
+    		handleKeyUp,
+    		TOMORROW,
+    		SUN_YESTERDAY,
+    		SUN,
+    		SUN_TOMORROW
+    	];
     }
 
     class App extends SvelteComponent {
