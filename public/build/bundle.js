@@ -1,5 +1,5 @@
 
-(function(l, r) { if (!l || l.getElementById('livereloadscript')) return; r = l.createElement('script'); r.async = 1; r.src = '//' + (self.location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1'; r.id = 'livereloadscript'; l.getElementsByTagName('head')[0].appendChild(r) })(self.document);
+(function(l, r) { if (!l || l.getElementById('livereloadscript')) return; r = l.createElement('script'); r.async = 1; r.src = '//' + (self.location.host || 'localhost').split(':')[0] + ':35730/livereload.js?snipver=1'; r.id = 'livereloadscript'; l.getElementsByTagName('head')[0].appendChild(r) })(self.document);
 var app = (function () {
     'use strict';
 
@@ -517,7 +517,7 @@ var app = (function () {
 
     	progressbar = new ProgressBar({
     			props: {
-    				progress: /*PROGRESS_NIGHTTIME*/ ctx[2] * 100
+    				progress: /*PROGRESS_NIGHTTIME*/ ctx[1] * 100
     			}
     		});
 
@@ -537,7 +537,7 @@ var app = (function () {
     		},
     		p(ctx, dirty) {
     			const progressbar_changes = {};
-    			if (dirty & /*PROGRESS_NIGHTTIME*/ 4) progressbar_changes.progress = /*PROGRESS_NIGHTTIME*/ ctx[2] * 100;
+    			if (dirty & /*PROGRESS_NIGHTTIME*/ 2) progressbar_changes.progress = /*PROGRESS_NIGHTTIME*/ ctx[1] * 100;
     			progressbar.$set(progressbar_changes);
     		},
     		i(local) {
@@ -557,7 +557,7 @@ var app = (function () {
     	};
     }
 
-    // (131:8) {#if PROGRESS_DAYLIGHT > 0 && PROGRESS_DAYLIGHT < 1}
+    // (125:8) {#if PROGRESS_DAYLIGHT > 0 && PROGRESS_DAYLIGHT < 1}
     function create_if_block(ctx) {
     	let div1;
     	let t1;
@@ -566,7 +566,7 @@ var app = (function () {
 
     	progressbar = new ProgressBar({
     			props: {
-    				progress: /*PROGRESS_DAYLIGHT*/ ctx[1] * 100
+    				progress: /*PROGRESS_DAYLIGHT*/ ctx[3] * 100
     			}
     		});
 
@@ -586,7 +586,7 @@ var app = (function () {
     		},
     		p(ctx, dirty) {
     			const progressbar_changes = {};
-    			if (dirty & /*PROGRESS_DAYLIGHT*/ 2) progressbar_changes.progress = /*PROGRESS_DAYLIGHT*/ ctx[1] * 100;
+    			if (dirty & /*PROGRESS_DAYLIGHT*/ 8) progressbar_changes.progress = /*PROGRESS_DAYLIGHT*/ ctx[3] * 100;
     			progressbar.$set(progressbar_changes);
     		},
     		i(local) {
@@ -649,7 +649,7 @@ var app = (function () {
     	const if_blocks = [];
 
     	function select_block_type(ctx, dirty) {
-    		if (/*PROGRESS_DAYLIGHT*/ ctx[1] > 0 && /*PROGRESS_DAYLIGHT*/ ctx[1] < 1) return 0;
+    		if (/*PROGRESS_DAYLIGHT*/ ctx[3] > 0 && /*PROGRESS_DAYLIGHT*/ ctx[3] < 1) return 0;
     		return 1;
     	}
 
@@ -658,7 +658,7 @@ var app = (function () {
 
     	progressbar0 = new ProgressBar({
     			props: {
-    				progress: /*PROGRESS_TODAY*/ ctx[3] * 100
+    				progress: /*PROGRESS_TODAY*/ ctx[2] * 100
     			}
     		});
 
@@ -798,7 +798,7 @@ var app = (function () {
     			}
 
     			const progressbar0_changes = {};
-    			if (dirty & /*PROGRESS_TODAY*/ 8) progressbar0_changes.progress = /*PROGRESS_TODAY*/ ctx[3] * 100;
+    			if (dirty & /*PROGRESS_TODAY*/ 4) progressbar0_changes.progress = /*PROGRESS_TODAY*/ ctx[2] * 100;
     			progressbar0.$set(progressbar0_changes);
     			const progressbar1_changes = {};
     			if (dirty & /*PROGRESS_WEEK*/ 16) progressbar1_changes.progress = /*PROGRESS_WEEK*/ ctx[4] * 100;
@@ -901,7 +901,7 @@ var app = (function () {
     	};
 
     	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*CURRENT_DATETIME, TOMORROW, SUN, SUN_TOMORROW, PROGRESS_DAYLIGHT, PROGRESS_NIGHTTIME, SUN_YESTERDAY, PROGRESS_TODAY*/ 3855) {
+    		if ($$self.$$.dirty & /*CURRENT_DATETIME, TOMORROW, SUN, SUN_TOMORROW, PROGRESS_NIGHTTIME, SUN_YESTERDAY, PROGRESS_TODAY*/ 3847) {
     			(((function () {
     				if (CURRENT_DATETIME.toDateString() === TOMORROW.toDateString()) {
     					YESTERDAY = new Date(CURRENT_DATETIME.getTime() - DAY);
@@ -912,33 +912,27 @@ var app = (function () {
     				}
 
     				// PROGRESS DAYLIGHT (0-1)
-    				$$invalidate(1, PROGRESS_DAYLIGHT = (CURRENT_DATETIME - SUN.sunrise) / Math.abs(SUN.sunrise - SUN.sunset));
+    				$$invalidate(3, PROGRESS_DAYLIGHT = (CURRENT_DATETIME - SUN.sunrise) / Math.abs(SUN.sunrise - SUN.sunset));
 
-    				console.log('PROGRESS_DAYLIGHT', PROGRESS_DAYLIGHT);
-
-    				// console.log(
-    				//   CURRENT_DATETIME - SUN.sunset
-    				// );
     				// PROGRESS NIGHTTIME (0-1)
-    				$$invalidate(2, PROGRESS_NIGHTTIME = (CURRENT_DATETIME - SUN.sunset) / Math.abs(SUN.sunset - SUN_TOMORROW.sunrise));
+    				$$invalidate(1, PROGRESS_NIGHTTIME = (CURRENT_DATETIME - SUN.sunset) / Math.abs(SUN.sunset - SUN_TOMORROW.sunrise));
 
     				if (!(PROGRESS_NIGHTTIME > 0 && PROGRESS_NIGHTTIME < 1)) {
-    					$$invalidate(2, PROGRESS_NIGHTTIME = (CURRENT_DATETIME - SUN_YESTERDAY.sunset) / Math.abs(SUN_YESTERDAY.sunset - SUN.sunrise));
+    					$$invalidate(1, PROGRESS_NIGHTTIME = (CURRENT_DATETIME - SUN_YESTERDAY.sunset) / Math.abs(SUN_YESTERDAY.sunset - SUN.sunrise));
     				}
 
-    				console.log('PROGRESS_NIGHTTIME', PROGRESS_NIGHTTIME);
+    				// PROGRESS TODAY 0-24 -> (0-1)
+    				$$invalidate(2, PROGRESS_TODAY = (CURRENT_DATETIME.getHours() * 60 + CURRENT_DATETIME.getMinutes()) / (24 * 60));
 
-    				// PROGRESS TODAY 0-24 -> (0-1) 
-    				$$invalidate(3, PROGRESS_TODAY = ((CURRENT_DATETIME.getHours() + 1) * 60 + CURRENT_DATETIME.getMinutes()) / (24 * 60));
-
-    				// PROGRESS WEEK Mon-Sun -> (0-1) 
-    				$$invalidate(4, PROGRESS_WEEK = (CURRENT_DATETIME.getDay() === 0
+    				// PROGRESS WEEK Mon-Sun -> (0-1)
+    				$$invalidate(4, PROGRESS_WEEK = ((CURRENT_DATETIME.getDay() === 0
     				? 6
-    				: CURRENT_DATETIME.getDay() - 1) + PROGRESS_TODAY / 7);
+    				: CURRENT_DATETIME.getDay() - 1) + PROGRESS_TODAY) / 7);
 
     				// PROGRESS MONTH (0-1)
     				$$invalidate(5, PROGRESS_MONTH = (CURRENT_DATETIME.getDate() - 1 + PROGRESS_TODAY) / new Date(CURRENT_DATETIME.getFullYear(), CURRENT_DATETIME.getMonth() + 1, 0).getDate());
 
+    				// PROGRESS YEAR (0-1)
     				$$invalidate(6, PROGRESS_YEAR = (getDaysPassed() - 1 + PROGRESS_TODAY) / (CURRENT_DATETIME % 4 == 0 ? 366 : 365));
     			}))());
     		}
@@ -946,9 +940,9 @@ var app = (function () {
 
     	return [
     		CURRENT_DATETIME,
-    		PROGRESS_DAYLIGHT,
     		PROGRESS_NIGHTTIME,
     		PROGRESS_TODAY,
+    		PROGRESS_DAYLIGHT,
     		PROGRESS_WEEK,
     		PROGRESS_MONTH,
     		PROGRESS_YEAR,

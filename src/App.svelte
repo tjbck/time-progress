@@ -11,10 +11,10 @@
   let CURRENT_DATETIME = new Date();
 
   // SUN TIMES
-  const SECOND =  1000;
+  const SECOND = 1000;
   const MINUTE = 60 * SECOND;
   const HOUR = 60 * MINUTE;
-  const DAY =  24 * HOUR;
+  const DAY = 24 * HOUR;
 
   let YESTERDAY = new Date(CURRENT_DATETIME.getTime() - DAY);
   let TOMORROW = new Date(CURRENT_DATETIME.getTime() + DAY);
@@ -38,7 +38,7 @@
       CURRENT_DATETIME -
       YEAR_START +
       (YEAR_START.getTimezoneOffset() - CURRENT_DATETIME.getTimezoneOffset()) *
-      MINUTE;
+        MINUTE;
     return Math.floor(DIFF / DAY);
   };
 
@@ -55,36 +55,29 @@
 
       // PROGRESS DAYLIGHT (0-1)
       PROGRESS_DAYLIGHT =
-      (CURRENT_DATETIME - SUN.sunrise) / Math.abs(SUN.sunrise - SUN.sunset);
-
-      console.log('PROGRESS_DAYLIGHT',PROGRESS_DAYLIGHT)
-
-      // console.log(
-      //   CURRENT_DATETIME - SUN.sunset
-      // );
+        (CURRENT_DATETIME - SUN.sunrise) / Math.abs(SUN.sunrise - SUN.sunset);
 
       // PROGRESS NIGHTTIME (0-1)
       PROGRESS_NIGHTTIME =
-      (CURRENT_DATETIME - SUN.sunset) / Math.abs(SUN.sunset - SUN_TOMORROW.sunrise);
+        (CURRENT_DATETIME - SUN.sunset) /
+        Math.abs(SUN.sunset - SUN_TOMORROW.sunrise);
 
-      if(!(PROGRESS_NIGHTTIME > 0 && PROGRESS_NIGHTTIME < 1)){
-        PROGRESS_NIGHTTIME = (CURRENT_DATETIME - SUN_YESTERDAY.sunset) /
-        Math.abs(SUN_YESTERDAY.sunset - SUN.sunrise)
+      if (!(PROGRESS_NIGHTTIME > 0 && PROGRESS_NIGHTTIME < 1)) {
+        PROGRESS_NIGHTTIME =
+          (CURRENT_DATETIME - SUN_YESTERDAY.sunset) /
+          Math.abs(SUN_YESTERDAY.sunset - SUN.sunrise);
       }
 
-      console.log('PROGRESS_NIGHTTIME',PROGRESS_NIGHTTIME)
-
-      // PROGRESS TODAY 0-24 -> (0-1) 
+      // PROGRESS TODAY 0-24 -> (0-1)
       PROGRESS_TODAY =
-        ((CURRENT_DATETIME.getHours() + 1) * 60 +
-          CURRENT_DATETIME.getMinutes()) /
+        (CURRENT_DATETIME.getHours() * 60 + CURRENT_DATETIME.getMinutes()) /
         (24 * 60);
 
-
-      // PROGRESS WEEK Mon-Sun -> (0-1) 
+      // PROGRESS WEEK Mon-Sun -> (0-1)
       PROGRESS_WEEK =
-        (CURRENT_DATETIME.getDay() === 0 ? 6 : CURRENT_DATETIME.getDay() - 1) +
-        PROGRESS_TODAY / 7;
+        ((CURRENT_DATETIME.getDay() === 0 ? 6 : CURRENT_DATETIME.getDay() - 1) +
+          PROGRESS_TODAY) /
+        7;
 
       // PROGRESS MONTH (0-1)
       PROGRESS_MONTH =
@@ -95,6 +88,7 @@
           0
         ).getDate();
 
+      // PROGRESS YEAR (0-1)
       PROGRESS_YEAR =
         (getDaysPassed() - 1 + PROGRESS_TODAY) /
         (CURRENT_DATETIME % 4 == 0 ? 366 : 365);
@@ -129,15 +123,15 @@
 
       <div class="text-left">
         {#if PROGRESS_DAYLIGHT > 0 && PROGRESS_DAYLIGHT < 1}
-        <div class="my-1">
-          <div>Daylight</div>
-        </div>
-        <ProgressBar progress={PROGRESS_DAYLIGHT * 100} />
+          <div class="my-1">
+            <div>Daylight</div>
+          </div>
+          <ProgressBar progress={PROGRESS_DAYLIGHT * 100} />
         {:else}
-        <div class="my-1">
-          <div>Nighttime</div>
-        </div>
-        <ProgressBar progress={PROGRESS_NIGHTTIME * 100} />
+          <div class="my-1">
+            <div>Nighttime</div>
+          </div>
+          <ProgressBar progress={PROGRESS_NIGHTTIME * 100} />
         {/if}
       </div>
 
