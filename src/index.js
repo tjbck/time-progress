@@ -2,6 +2,8 @@
 const { app, protocol, ipcMain, BrowserWindow, Tray, Menu } = require('electron')
 const path = require('path');
 const isDev = require('electron-is-dev');
+const axios = require('axios');
+
 
 const exeName = path.basename(process.execPath);
 // Scheme must be registered before the app is ready
@@ -51,6 +53,7 @@ const createTray = () => {
           showWindow()
         },
       },
+
       {
         label: 'Quit',
         click: () => {
@@ -192,3 +195,14 @@ ipcMain.on("always-on-top", function () {
   toggleAlwaysOnTop()
 });
 
+ipcMain.on("get-location-ip", async function (event) {
+  const res = await axios.get('https://ipapi.co/json');
+  console.log(res)
+  event.returnValue = res.data
+});
+
+ipcMain.on("get-location", async function (event, arg) {
+  const res = await axios.get(`https://nominatim.openstreetmap.org/search?q=${arg}&format=json`);
+  console.log(res)
+  event.returnValue = res.data
+});

@@ -1,5 +1,5 @@
 
-(function(l, r) { if (!l || l.getElementById('livereloadscript')) return; r = l.createElement('script'); r.async = 1; r.src = '//' + (self.location.host || 'localhost').split(':')[0] + ':35730/livereload.js?snipver=1'; r.id = 'livereloadscript'; l.getElementsByTagName('head')[0].appendChild(r) })(self.document);
+(function(l, r) { if (!l || l.getElementById('livereloadscript')) return; r = l.createElement('script'); r.async = 1; r.src = '//' + (self.location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1'; r.id = 'livereloadscript'; l.getElementsByTagName('head')[0].appendChild(r) })(self.document);
 var app = (function () {
     'use strict';
 
@@ -39,6 +39,9 @@ var app = (function () {
     }
     function space() {
         return text(' ');
+    }
+    function empty() {
+        return text('');
     }
     function listen(node, event, handler, options) {
         node.addEventListener(event, handler, options);
@@ -509,104 +512,29 @@ var app = (function () {
 
     const { window: window_1 } = globals;
 
-    function create_else_block(ctx) {
-    	let div1;
-    	let t1;
-    	let progressbar;
-    	let current;
-
-    	progressbar = new ProgressBar({
-    			props: {
-    				progress: /*PROGRESS_NIGHTTIME*/ ctx[1] * 100
-    			}
-    		});
+    function create_else_block_1(ctx) {
+    	let div;
 
     	return {
     		c() {
-    			div1 = element("div");
-    			div1.innerHTML = `<div>Nighttime</div>`;
-    			t1 = space();
-    			create_component(progressbar.$$.fragment);
-    			attr(div1, "class", "my-1");
+    			div = element("div");
+    			div.innerHTML = `<main class="h-screen flex justify-center items-center text-white"><span class="animate-ping absolute inline-flex h-10 w-10 rounded-full bg-gray-100 opacity-100"></span></main>`;
+    			attr(div, "class", "min-h-screen min-w-screen bg-stone-900 text-center");
     		},
     		m(target, anchor) {
-    			insert(target, div1, anchor);
-    			insert(target, t1, anchor);
-    			mount_component(progressbar, target, anchor);
-    			current = true;
+    			insert(target, div, anchor);
     		},
-    		p(ctx, dirty) {
-    			const progressbar_changes = {};
-    			if (dirty & /*PROGRESS_NIGHTTIME*/ 2) progressbar_changes.progress = /*PROGRESS_NIGHTTIME*/ ctx[1] * 100;
-    			progressbar.$set(progressbar_changes);
-    		},
-    		i(local) {
-    			if (current) return;
-    			transition_in(progressbar.$$.fragment, local);
-    			current = true;
-    		},
-    		o(local) {
-    			transition_out(progressbar.$$.fragment, local);
-    			current = false;
-    		},
+    		p: noop,
+    		i: noop,
+    		o: noop,
     		d(detaching) {
-    			if (detaching) detach(div1);
-    			if (detaching) detach(t1);
-    			destroy_component(progressbar, detaching);
+    			if (detaching) detach(div);
     		}
     	};
     }
 
-    // (125:8) {#if PROGRESS_DAYLIGHT > 0 && PROGRESS_DAYLIGHT < 1}
+    // (175:0) {#if loaded}
     function create_if_block(ctx) {
-    	let div1;
-    	let t1;
-    	let progressbar;
-    	let current;
-
-    	progressbar = new ProgressBar({
-    			props: {
-    				progress: /*PROGRESS_DAYLIGHT*/ ctx[3] * 100
-    			}
-    		});
-
-    	return {
-    		c() {
-    			div1 = element("div");
-    			div1.innerHTML = `<div>Daylight</div>`;
-    			t1 = space();
-    			create_component(progressbar.$$.fragment);
-    			attr(div1, "class", "my-1");
-    		},
-    		m(target, anchor) {
-    			insert(target, div1, anchor);
-    			insert(target, t1, anchor);
-    			mount_component(progressbar, target, anchor);
-    			current = true;
-    		},
-    		p(ctx, dirty) {
-    			const progressbar_changes = {};
-    			if (dirty & /*PROGRESS_DAYLIGHT*/ 8) progressbar_changes.progress = /*PROGRESS_DAYLIGHT*/ ctx[3] * 100;
-    			progressbar.$set(progressbar_changes);
-    		},
-    		i(local) {
-    			if (current) return;
-    			transition_in(progressbar.$$.fragment, local);
-    			current = true;
-    		},
-    		o(local) {
-    			transition_out(progressbar.$$.fragment, local);
-    			current = false;
-    		},
-    		d(detaching) {
-    			if (detaching) detach(div1);
-    			if (detaching) detach(t1);
-    			destroy_component(progressbar, detaching);
-    		}
-    	};
-    }
-
-    function create_fragment(ctx) {
     	let div12;
     	let main;
     	let div11;
@@ -642,38 +570,36 @@ var app = (function () {
     	let t15;
     	let offcanvas;
     	let current;
-    	let mounted;
-    	let dispose;
     	closebutton = new CloseButton({});
-    	const if_block_creators = [create_if_block, create_else_block];
+    	const if_block_creators = [create_if_block_1, create_else_block];
     	const if_blocks = [];
 
-    	function select_block_type(ctx, dirty) {
-    		if (/*PROGRESS_DAYLIGHT*/ ctx[3] > 0 && /*PROGRESS_DAYLIGHT*/ ctx[3] < 1) return 0;
+    	function select_block_type_1(ctx, dirty) {
+    		if (/*PROGRESS_DAYLIGHT*/ ctx[2] > 0 && /*PROGRESS_DAYLIGHT*/ ctx[2] < 1) return 0;
     		return 1;
     	}
 
-    	current_block_type_index = select_block_type(ctx);
+    	current_block_type_index = select_block_type_1(ctx);
     	if_block = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
 
     	progressbar0 = new ProgressBar({
     			props: {
-    				progress: /*PROGRESS_TODAY*/ ctx[2] * 100
+    				progress: /*PROGRESS_TODAY*/ ctx[4] * 100
     			}
     		});
 
     	progressbar1 = new ProgressBar({
-    			props: { progress: /*PROGRESS_WEEK*/ ctx[4] * 100 }
+    			props: { progress: /*PROGRESS_WEEK*/ ctx[5] * 100 }
     		});
 
     	progressbar2 = new ProgressBar({
     			props: {
-    				progress: /*PROGRESS_MONTH*/ ctx[5] * 100
+    				progress: /*PROGRESS_MONTH*/ ctx[6] * 100
     			}
     		});
 
     	progressbar3 = new ProgressBar({
-    			props: { progress: /*PROGRESS_YEAR*/ ctx[6] * 100 }
+    			props: { progress: /*PROGRESS_YEAR*/ ctx[7] * 100 }
     		});
 
     	offcanvas = new OffCanvas({});
@@ -764,15 +690,10 @@ var app = (function () {
     			append(div11, t15);
     			mount_component(offcanvas, div11, null);
     			current = true;
-
-    			if (!mounted) {
-    				dispose = listen(window_1, "keyup", /*handleKeyUp*/ ctx[7]);
-    				mounted = true;
-    			}
     		},
-    		p(ctx, [dirty]) {
+    		p(ctx, dirty) {
     			let previous_block_index = current_block_type_index;
-    			current_block_type_index = select_block_type(ctx);
+    			current_block_type_index = select_block_type_1(ctx);
 
     			if (current_block_type_index === previous_block_index) {
     				if_blocks[current_block_type_index].p(ctx, dirty);
@@ -798,16 +719,16 @@ var app = (function () {
     			}
 
     			const progressbar0_changes = {};
-    			if (dirty & /*PROGRESS_TODAY*/ 4) progressbar0_changes.progress = /*PROGRESS_TODAY*/ ctx[2] * 100;
+    			if (dirty & /*PROGRESS_TODAY*/ 16) progressbar0_changes.progress = /*PROGRESS_TODAY*/ ctx[4] * 100;
     			progressbar0.$set(progressbar0_changes);
     			const progressbar1_changes = {};
-    			if (dirty & /*PROGRESS_WEEK*/ 16) progressbar1_changes.progress = /*PROGRESS_WEEK*/ ctx[4] * 100;
+    			if (dirty & /*PROGRESS_WEEK*/ 32) progressbar1_changes.progress = /*PROGRESS_WEEK*/ ctx[5] * 100;
     			progressbar1.$set(progressbar1_changes);
     			const progressbar2_changes = {};
-    			if (dirty & /*PROGRESS_MONTH*/ 32) progressbar2_changes.progress = /*PROGRESS_MONTH*/ ctx[5] * 100;
+    			if (dirty & /*PROGRESS_MONTH*/ 64) progressbar2_changes.progress = /*PROGRESS_MONTH*/ ctx[6] * 100;
     			progressbar2.$set(progressbar2_changes);
     			const progressbar3_changes = {};
-    			if (dirty & /*PROGRESS_YEAR*/ 64) progressbar3_changes.progress = /*PROGRESS_YEAR*/ ctx[6] * 100;
+    			if (dirty & /*PROGRESS_YEAR*/ 128) progressbar3_changes.progress = /*PROGRESS_YEAR*/ ctx[7] * 100;
     			progressbar3.$set(progressbar3_changes);
     			if ((!current || dirty & /*CURRENT_DATETIME*/ 1) && t14_value !== (t14_value = /*CURRENT_DATETIME*/ ctx[0].toLocaleString() + "")) set_data(t14, t14_value);
     		},
@@ -841,6 +762,180 @@ var app = (function () {
     			destroy_component(progressbar2);
     			destroy_component(progressbar3);
     			destroy_component(offcanvas);
+    		}
+    	};
+    }
+
+    // (187:10) {:else}
+    function create_else_block(ctx) {
+    	let div1;
+    	let t1;
+    	let progressbar;
+    	let current;
+
+    	progressbar = new ProgressBar({
+    			props: {
+    				progress: /*PROGRESS_NIGHTTIME*/ ctx[3] * 100
+    			}
+    		});
+
+    	return {
+    		c() {
+    			div1 = element("div");
+    			div1.innerHTML = `<div>Nighttime</div>`;
+    			t1 = space();
+    			create_component(progressbar.$$.fragment);
+    			attr(div1, "class", "my-1");
+    		},
+    		m(target, anchor) {
+    			insert(target, div1, anchor);
+    			insert(target, t1, anchor);
+    			mount_component(progressbar, target, anchor);
+    			current = true;
+    		},
+    		p(ctx, dirty) {
+    			const progressbar_changes = {};
+    			if (dirty & /*PROGRESS_NIGHTTIME*/ 8) progressbar_changes.progress = /*PROGRESS_NIGHTTIME*/ ctx[3] * 100;
+    			progressbar.$set(progressbar_changes);
+    		},
+    		i(local) {
+    			if (current) return;
+    			transition_in(progressbar.$$.fragment, local);
+    			current = true;
+    		},
+    		o(local) {
+    			transition_out(progressbar.$$.fragment, local);
+    			current = false;
+    		},
+    		d(detaching) {
+    			if (detaching) detach(div1);
+    			if (detaching) detach(t1);
+    			destroy_component(progressbar, detaching);
+    		}
+    	};
+    }
+
+    // (182:10) {#if PROGRESS_DAYLIGHT > 0 && PROGRESS_DAYLIGHT < 1}
+    function create_if_block_1(ctx) {
+    	let div1;
+    	let t1;
+    	let progressbar;
+    	let current;
+
+    	progressbar = new ProgressBar({
+    			props: {
+    				progress: /*PROGRESS_DAYLIGHT*/ ctx[2] * 100
+    			}
+    		});
+
+    	return {
+    		c() {
+    			div1 = element("div");
+    			div1.innerHTML = `<div>Daylight</div>`;
+    			t1 = space();
+    			create_component(progressbar.$$.fragment);
+    			attr(div1, "class", "my-1");
+    		},
+    		m(target, anchor) {
+    			insert(target, div1, anchor);
+    			insert(target, t1, anchor);
+    			mount_component(progressbar, target, anchor);
+    			current = true;
+    		},
+    		p(ctx, dirty) {
+    			const progressbar_changes = {};
+    			if (dirty & /*PROGRESS_DAYLIGHT*/ 4) progressbar_changes.progress = /*PROGRESS_DAYLIGHT*/ ctx[2] * 100;
+    			progressbar.$set(progressbar_changes);
+    		},
+    		i(local) {
+    			if (current) return;
+    			transition_in(progressbar.$$.fragment, local);
+    			current = true;
+    		},
+    		o(local) {
+    			transition_out(progressbar.$$.fragment, local);
+    			current = false;
+    		},
+    		d(detaching) {
+    			if (detaching) detach(div1);
+    			if (detaching) detach(t1);
+    			destroy_component(progressbar, detaching);
+    		}
+    	};
+    }
+
+    function create_fragment(ctx) {
+    	let current_block_type_index;
+    	let if_block;
+    	let if_block_anchor;
+    	let current;
+    	let mounted;
+    	let dispose;
+    	const if_block_creators = [create_if_block, create_else_block_1];
+    	const if_blocks = [];
+
+    	function select_block_type(ctx, dirty) {
+    		if (/*loaded*/ ctx[1]) return 0;
+    		return 1;
+    	}
+
+    	current_block_type_index = select_block_type(ctx);
+    	if_block = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
+
+    	return {
+    		c() {
+    			if_block.c();
+    			if_block_anchor = empty();
+    		},
+    		m(target, anchor) {
+    			if_blocks[current_block_type_index].m(target, anchor);
+    			insert(target, if_block_anchor, anchor);
+    			current = true;
+
+    			if (!mounted) {
+    				dispose = listen(window_1, "keyup", /*handleKeyUp*/ ctx[8]);
+    				mounted = true;
+    			}
+    		},
+    		p(ctx, [dirty]) {
+    			let previous_block_index = current_block_type_index;
+    			current_block_type_index = select_block_type(ctx);
+
+    			if (current_block_type_index === previous_block_index) {
+    				if_blocks[current_block_type_index].p(ctx, dirty);
+    			} else {
+    				group_outros();
+
+    				transition_out(if_blocks[previous_block_index], 1, 1, () => {
+    					if_blocks[previous_block_index] = null;
+    				});
+
+    				check_outros();
+    				if_block = if_blocks[current_block_type_index];
+
+    				if (!if_block) {
+    					if_block = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
+    					if_block.c();
+    				} else {
+    					if_block.p(ctx, dirty);
+    				}
+
+    				transition_in(if_block, 1);
+    				if_block.m(if_block_anchor.parentNode, if_block_anchor);
+    			}
+    		},
+    		i(local) {
+    			if (current) return;
+    			transition_in(if_block);
+    			current = true;
+    		},
+    		o(local) {
+    			transition_out(if_block);
+    			current = false;
+    		},
+    		d(detaching) {
+    			if_blocks[current_block_type_index].d(detaching);
+    			if (detaching) detach(if_block_anchor);
     			mounted = false;
     			dispose();
     		}
@@ -851,16 +946,28 @@ var app = (function () {
 
     function instance($$self, $$props, $$invalidate) {
     	const SunCalc = require("suncalc");
-    	const COORDINATE = [37.566536, 126.977966]; //LAT,LON
+    	let loaded = false;
+
+    	// ipcRenderer Functions
+    	const getLocationIP = async () => {
+    		let res = await ipcRenderer.sendSync("get-location-ip");
+    		console.log("getLocationIP", res);
+    		const coords = [res.latitude, res.longitude];
+    		localStorage.COORDINATE = JSON.stringify(coords);
+    		console.log(res, coords);
+    		return coords;
+    	};
+
+    	let COORDINATE;
     	let CURRENT_DATETIME = new Date();
     	const MINUTE = 60 * SECOND;
     	const HOUR = 60 * MINUTE;
     	const DAY = 24 * HOUR;
     	let YESTERDAY = new Date(CURRENT_DATETIME.getTime() - DAY);
     	let TOMORROW = new Date(CURRENT_DATETIME.getTime() + DAY);
-    	let SUN_YESTERDAY = SunCalc.getTimes(YESTERDAY, COORDINATE[0], COORDINATE[1]);
-    	let SUN = SunCalc.getTimes(CURRENT_DATETIME, COORDINATE[0], COORDINATE[1]);
-    	let SUN_TOMORROW = SunCalc.getTimes(TOMORROW, COORDINATE[0], COORDINATE[1]);
+    	let SUN_YESTERDAY;
+    	let SUN;
+    	let SUN_TOMORROW;
 
     	// PROGRESS
     	let PROGRESS_DAYLIGHT = null;
@@ -871,16 +978,61 @@ var app = (function () {
     	let PROGRESS_MONTH = null;
     	let PROGRESS_YEAR = null;
 
+    	// Set Progress Functions
     	const getDaysPassed = () => {
     		const YEAR_START = new Date(CURRENT_DATETIME.getFullYear(), 0, 0);
     		const DIFF = CURRENT_DATETIME - YEAR_START + (YEAR_START.getTimezoneOffset() - CURRENT_DATETIME.getTimezoneOffset()) * MINUTE;
     		return Math.floor(DIFF / DAY);
     	};
 
-    	onMount(() => {
-    		console.log(SUN_YESTERDAY);
-    		console.log(SUN);
-    		console.log(SUN_TOMORROW);
+    	const getProgressDaylight = () => {
+    		// PROGRESS DAYLIGHT (0-1)
+    		$$invalidate(2, PROGRESS_DAYLIGHT = (CURRENT_DATETIME - SUN.sunrise) / Math.abs(SUN.sunrise - SUN.sunset));
+    	};
+
+    	const getProgressNighttime = () => {
+    		// PROGRESS NIGHTTIME (0-1)
+    		$$invalidate(3, PROGRESS_NIGHTTIME = (CURRENT_DATETIME - SUN.sunset) / Math.abs(SUN.sunset - SUN_TOMORROW.sunrise));
+
+    		if (!(PROGRESS_NIGHTTIME > 0 && PROGRESS_NIGHTTIME < 1)) {
+    			$$invalidate(3, PROGRESS_NIGHTTIME = (CURRENT_DATETIME - SUN_YESTERDAY.sunset) / Math.abs(SUN_YESTERDAY.sunset - SUN.sunrise));
+    		}
+    	};
+
+    	const getProgressToday = () => {
+    		// PROGRESS TODAY 0-24 -> (0-1)
+    		$$invalidate(4, PROGRESS_TODAY = (CURRENT_DATETIME.getHours() * 60 + CURRENT_DATETIME.getMinutes()) / (24 * 60));
+    	};
+
+    	const getProgressWeek = () => {
+    		// PROGRESS WEEK Mon-Sun -> (0-1)
+    		$$invalidate(5, PROGRESS_WEEK = ((CURRENT_DATETIME.getDay() === 0
+    		? 6
+    		: CURRENT_DATETIME.getDay() - 1) + PROGRESS_TODAY) / 7);
+    	};
+
+    	const getProgressMonth = () => {
+    		// PROGRESS MONTH (0-1)
+    		$$invalidate(6, PROGRESS_MONTH = (CURRENT_DATETIME.getDate() - 1 + PROGRESS_TODAY) / new Date(CURRENT_DATETIME.getFullYear(), CURRENT_DATETIME.getMonth() + 1, 0).getDate());
+    	};
+
+    	const getProgressYear = () => {
+    		// PROGRESS YEAR (0-1)
+    		$$invalidate(7, PROGRESS_YEAR = (getDaysPassed() - 1 + PROGRESS_TODAY) / (CURRENT_DATETIME % 4 == 0 ? 366 : 365));
+    	};
+
+    	onMount(async () => {
+    		// Attempt to load saved variable from LocalStroage. If not found, getLocationIP
+    		$$invalidate(9, COORDINATE = localStorage.COORDINATE
+    		? JSON.parse(localStorage.COORDINATE)
+    		: await getLocationIP());
+
+    		console.log(COORDINATE);
+    		SUN_YESTERDAY = SunCalc.getTimes(YESTERDAY, COORDINATE[0], COORDINATE[1]);
+    		$$invalidate(12, SUN_TOMORROW = SunCalc.getTimes(TOMORROW, COORDINATE[0], COORDINATE[1]));
+    		$$invalidate(11, SUN = SunCalc.getTimes(CURRENT_DATETIME, COORDINATE[0], COORDINATE[1]));
+    		$$invalidate(1, loaded = true);
+    		new Notification("⌛ time progress", { body: "hello there! :)" });
 
     		setInterval(
     			() => {
@@ -890,65 +1042,54 @@ var app = (function () {
     		);
     	});
 
-    	const handleKeyUp = e => {
-    		// this would test for whichever key is 40 (down arrow) and the ctrl key at the same time
+    	const handleKeyUp = async e => {
     		if (e.ctrlKey && e.key === "t") {
-    			// call your function to do the thing
     			console.log("alwaysOnTop");
-
     			window.ipcRenderer.send("always-on-top");
+    		}
+
+    		if (e.ctrlKey && e.key === "l") {
+    			console.log("getLocation");
+    			$$invalidate(9, COORDINATE = await getLocationIP());
     		}
     	};
 
     	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*CURRENT_DATETIME, TOMORROW, SUN, SUN_TOMORROW, PROGRESS_NIGHTTIME, SUN_YESTERDAY, PROGRESS_TODAY*/ 3847) {
+    		if ($$self.$$.dirty & /*CURRENT_DATETIME, SUN, TOMORROW, SUN_TOMORROW, COORDINATE*/ 7681) {
     			(((function () {
-    				if (CURRENT_DATETIME.toDateString() === TOMORROW.toDateString()) {
-    					YESTERDAY = new Date(CURRENT_DATETIME.getTime() - DAY);
-    					$$invalidate(8, TOMORROW = new Date(CURRENT_DATETIME.getTime() + DAY));
-    					$$invalidate(9, SUN_YESTERDAY = SUN);
-    					$$invalidate(10, SUN = SUN_TOMORROW);
-    					$$invalidate(11, SUN_TOMORROW = SunCalc.getTimes(TOMORROW, COORDINATE[0], COORDINATE[1]));
+    				if (SUN) {
+    					if (CURRENT_DATETIME.toDateString() === TOMORROW.toDateString()) {
+    						YESTERDAY = new Date(CURRENT_DATETIME.getTime() - DAY);
+    						$$invalidate(10, TOMORROW = new Date(CURRENT_DATETIME.getTime() + DAY));
+    						SUN_YESTERDAY = SUN;
+    						$$invalidate(11, SUN = SUN_TOMORROW);
+    						$$invalidate(12, SUN_TOMORROW = SunCalc.getTimes(TOMORROW, COORDINATE[0], COORDINATE[1]));
+    					}
+
+    					getProgressDaylight();
+    					getProgressNighttime();
     				}
 
-    				// PROGRESS DAYLIGHT (0-1)
-    				$$invalidate(3, PROGRESS_DAYLIGHT = (CURRENT_DATETIME - SUN.sunrise) / Math.abs(SUN.sunrise - SUN.sunset));
-
-    				// PROGRESS NIGHTTIME (0-1)
-    				$$invalidate(1, PROGRESS_NIGHTTIME = (CURRENT_DATETIME - SUN.sunset) / Math.abs(SUN.sunset - SUN_TOMORROW.sunrise));
-
-    				if (!(PROGRESS_NIGHTTIME > 0 && PROGRESS_NIGHTTIME < 1)) {
-    					$$invalidate(1, PROGRESS_NIGHTTIME = (CURRENT_DATETIME - SUN_YESTERDAY.sunset) / Math.abs(SUN_YESTERDAY.sunset - SUN.sunrise));
-    				}
-
-    				// PROGRESS TODAY 0-24 -> (0-1)
-    				$$invalidate(2, PROGRESS_TODAY = (CURRENT_DATETIME.getHours() * 60 + CURRENT_DATETIME.getMinutes()) / (24 * 60));
-
-    				// PROGRESS WEEK Mon-Sun -> (0-1)
-    				$$invalidate(4, PROGRESS_WEEK = ((CURRENT_DATETIME.getDay() === 0
-    				? 6
-    				: CURRENT_DATETIME.getDay() - 1) + PROGRESS_TODAY) / 7);
-
-    				// PROGRESS MONTH (0-1)
-    				$$invalidate(5, PROGRESS_MONTH = (CURRENT_DATETIME.getDate() - 1 + PROGRESS_TODAY) / new Date(CURRENT_DATETIME.getFullYear(), CURRENT_DATETIME.getMonth() + 1, 0).getDate());
-
-    				// PROGRESS YEAR (0-1)
-    				$$invalidate(6, PROGRESS_YEAR = (getDaysPassed() - 1 + PROGRESS_TODAY) / (CURRENT_DATETIME % 4 == 0 ? 366 : 365));
+    				getProgressToday();
+    				getProgressWeek();
+    				getProgressMonth();
+    				getProgressYear();
     			}))());
     		}
     	};
 
     	return [
     		CURRENT_DATETIME,
+    		loaded,
+    		PROGRESS_DAYLIGHT,
     		PROGRESS_NIGHTTIME,
     		PROGRESS_TODAY,
-    		PROGRESS_DAYLIGHT,
     		PROGRESS_WEEK,
     		PROGRESS_MONTH,
     		PROGRESS_YEAR,
     		handleKeyUp,
+    		COORDINATE,
     		TOMORROW,
-    		SUN_YESTERDAY,
     		SUN,
     		SUN_TOMORROW
     	];

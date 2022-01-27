@@ -12,6 +12,11 @@
   src: url("../assets/fonts/Regular.woff2");
 }
 
+@font-face {
+  font-family: NotoSansKR;
+  src: url("../assets/fonts/NotoSansKR.otf");
+}
+
 html * {
-  font-family: "MMedium", sans-serif;
+  font-family: "MMedium", "NotoSansKR", sans-serif;
 }
