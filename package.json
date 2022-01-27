@@ -28,7 +28,7 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "crawler"
+            "name": "time-progress"
           }
         },
         {
