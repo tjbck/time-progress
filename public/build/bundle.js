@@ -533,7 +533,7 @@ var app = (function () {
     	};
     }
 
-    // (175:0) {#if loaded}
+    // (190:0) {#if loaded}
     function create_if_block(ctx) {
     	let div12;
     	let main;
@@ -766,7 +766,7 @@ var app = (function () {
     	};
     }
 
-    // (187:10) {:else}
+    // (202:10) {:else}
     function create_else_block(ctx) {
     	let div1;
     	let t1;
@@ -815,7 +815,7 @@ var app = (function () {
     	};
     }
 
-    // (182:10) {#if PROGRESS_DAYLIGHT > 0 && PROGRESS_DAYLIGHT < 1}
+    // (197:10) {#if PROGRESS_DAYLIGHT > 0 && PROGRESS_DAYLIGHT < 1}
     function create_if_block_1(ctx) {
     	let div1;
     	let t1;
@@ -1043,14 +1043,27 @@ var app = (function () {
     	});
 
     	const handleKeyUp = async e => {
+    		// Ctrl + T
     		if (e.ctrlKey && e.key === "t") {
     			console.log("alwaysOnTop");
     			window.ipcRenderer.send("always-on-top");
     		}
 
+    		// Ctrl + T
+    		if (e.altKey && e.key === "t") {
+    			console.log("Theme");
+    		}
+
+    		// Ctrl + L
     		if (e.ctrlKey && e.key === "l") {
     			console.log("getLocation");
     			$$invalidate(9, COORDINATE = await getLocationIP());
+    		}
+
+    		// Ctrl + Q
+    		if (e.ctrlKey && e.key === "q") {
+    			console.log("quitApp");
+    			window.ipcRenderer.send("quit-app");
     		}
     	};
 

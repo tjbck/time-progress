@@ -7,6 +7,7 @@ const axios = require('axios');
 
 const exeName = path.basename(process.execPath);
 // Scheme must be registered before the app is ready
+app.setAsDefaultProtocolClient('time-progress')
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
 ])
@@ -53,12 +54,15 @@ const createTray = () => {
           showWindow()
         },
       },
+      {
+        label: `v${process.env.npm_package_version}`,
+        enabled: false
+      },
 
       {
         label: 'Quit',
         click: () => {
-          app.isQuitting = true
-          app.quit()
+          quitApp()
         },
       },
     ])
@@ -77,17 +81,22 @@ const createTray = () => {
         showWindow()
       },
     },
+
+
+    {
+      label: `v${process.env.npm_package_version}`,
+      enabled: false
+    },
     {
       label: 'Quit',
       click: () => {
-        app.isQuitting = true
-        app.quit()
+        quitApp()
       },
     },
   ])
 
   tray.setContextMenu(contextMenu)
-  tray.setToolTip(`Time Progress Widget`)
+  tray.setToolTip(`Time Progress`)
 
   tray.on('click', function (event) {
     toggleWindow()
@@ -115,6 +124,12 @@ const showWindow = () => {
   mainWindow.show()
   mainWindow.focus()
 }
+
+const quitApp = () => {
+  app.isQuitting = true
+  app.quit()
+}
+
 
 // Live Reload
 require('electron-reload')(__dirname, {
@@ -189,6 +204,10 @@ ipcMain.on("toggle-window", function () {
   toggleWindow()
 });
 
+ipcMain.on("quit-app", function () {
+  console.log("electron:quit-app")
+  quitApp()
+});
 
 ipcMain.on("always-on-top", function () {
   console.log("electron:always-on-top")

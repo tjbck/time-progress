@@ -158,14 +158,29 @@
   });
 
   const handleKeyUp = async (e) => {
+    // Ctrl + T
     if (e.ctrlKey && e.key === "t") {
       console.log("alwaysOnTop");
       window.ipcRenderer.send("always-on-top");
     }
 
+    // Ctrl + T
+    if (e.altKey && e.key === "t") {
+      console.log("Theme");
+    }
+
+
+    // Ctrl + L
     if (e.ctrlKey && e.key === "l") {
       console.log("getLocation");
       COORDINATE = await getLocationIP();
+    }
+
+
+    // Ctrl + Q
+    if (e.ctrlKey && e.key === "q") {
+      console.log("quitApp");
+      window.ipcRenderer.send("quit-app");
     }
   };
 </script>
